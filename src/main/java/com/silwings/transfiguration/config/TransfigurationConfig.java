@@ -15,6 +15,14 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Configuration
 public class TransfigurationConfig {
+    /**
+     * description: 响应体增强
+     * version: 1.0
+     * date: 2020/11/5 21:10
+     * author: 崔益翔
+     * @param
+     * @return com.silwings.transfiguration.controller_advice.TransfigurationResponseBodyAdvice
+     */
     @Bean
     public TransfigurationResponseBodyAdvice transfigurationResponseBodyAdvice() {
         return new TransfigurationResponseBodyAdvice();
