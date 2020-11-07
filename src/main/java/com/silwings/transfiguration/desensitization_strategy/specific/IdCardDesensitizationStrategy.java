@@ -19,7 +19,7 @@ public class IdCardDesensitizationStrategy implements DesensitizationStrategy<St
     }
 
     /**
-     * description: 隐藏出生日期
+     * description: 隐藏出生日期及其前三位
      * version: 1.0
      * date: 2020/11/7 21:43
      * author: 崔益翔
@@ -32,7 +32,7 @@ public class IdCardDesensitizationStrategy implements DesensitizationStrategy<St
         String newIdCardNum = idCardNum;
         if (null != idCardNum) {
             StringBuffer buffer = new StringBuffer(idCardNum);
-            buffer.replace(6, 14, desensitizationProperties.getReplaceSymbol(8));
+            buffer.replace(3, 14, desensitizationProperties.getReplaceSymbol(11));
             newIdCardNum = buffer.toString();
         }
         return newIdCardNum;

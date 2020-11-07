@@ -29,13 +29,13 @@ public class BankCardDesensitizationStrategy implements DesensitizationStrategy<
      */
     @Override
     public String desensitization(String bankCard) {
-        String newbankCard = bankCard;
+        String newBankCard = bankCard;
         if (null != bankCard) {
             StringBuffer buffer = new StringBuffer(bankCard);
             int lastIndex = bankCard.length() - 4;
             buffer.replace(6, lastIndex, desensitizationProperties.getReplaceSymbol(lastIndex - 6));
-            newbankCard = buffer.toString();
+            newBankCard = buffer.toString();
         }
-        return newbankCard;
+        return newBankCard;
     }
 }

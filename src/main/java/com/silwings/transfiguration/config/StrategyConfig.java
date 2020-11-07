@@ -56,6 +56,11 @@ public class StrategyConfig implements ApplicationContextAware {
     }
 
     @Bean
+    public FixedPhoneDesensitizationStrategy fixedPhoneDesensitizationStrategy() {
+        return new FixedPhoneDesensitizationStrategy(desensitizationProperties);
+    }
+
+    @Bean
     public DesensitizationStrategyContainer desensitizationStrategyContainer() {
         Map<String, DesensitizationStrategy> beansOfType = applicationContext.getBeansOfType(DesensitizationStrategy.class);
         DesensitizationStrategyContainer container = DesensitizationStrategyContainer.getInstance();

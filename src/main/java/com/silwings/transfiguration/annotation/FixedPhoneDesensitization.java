@@ -1,7 +1,7 @@
 package com.silwings.transfiguration.annotation;
 
 import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
-import com.silwings.transfiguration.desensitization_strategy.specific.IdCardDesensitizationStrategy;
+import com.silwings.transfiguration.desensitization_strategy.specific.FixedPhoneDesensitizationStrategy;
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.ElementType;
@@ -10,16 +10,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @ClassName IdCardDesensitization
- * @Description 身份证
+ * @ClassName FixedPhoneDesensitization
+ * @Description 固定电话
  * @Author 崔益翔
- * @Date 2020/11/7 21:40
+ * @Date 2020/11/7 22:45
  * @Version V1.0
  **/
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.FIELD, ElementType.METHOD})
-@DataDesensitization(strategy = IdCardDesensitizationStrategy.class)
-public @interface IdCardDesensitization {
+@DataDesensitization(strategy = FixedPhoneDesensitizationStrategy.class)
+public @interface FixedPhoneDesensitization {
     /**
      * 是否执行脱敏,默认是
      */
@@ -30,5 +30,5 @@ public @interface IdCardDesensitization {
      * 策略类class
      */
     @AliasFor(annotation = DataDesensitization.class)
-    Class<? extends DesensitizationStrategy> strategy() default IdCardDesensitizationStrategy.class;
+    Class<? extends DesensitizationStrategy> strategy() default FixedPhoneDesensitizationStrategy.class;
 }
