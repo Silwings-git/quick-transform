@@ -23,7 +23,11 @@ import java.util.Set;
  **/
 public class Main01 {
     public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
-        demo4();
+        demo5();
+    }
+
+    private static void demo5() {
+        System.out.println(User.class.isInterface());
     }
 
     private static void demo4() throws NoSuchFieldException, IllegalAccessException {

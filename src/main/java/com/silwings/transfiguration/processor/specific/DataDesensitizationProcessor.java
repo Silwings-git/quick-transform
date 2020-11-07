@@ -45,6 +45,7 @@ public class DataDesensitizationProcessor implements DesensitizationProcessor {
                     continue;
                 }
                 DesensitizationStrategy strategy = desensitizationStrategyContainer.getStrategy(mergedAnnotation.strategy());
+                Objects.requireNonNull(strategy, mergedAnnotation.strategy().getName() + " 实例未找到,请检查是否已添加到Spring容器");
                 try {
 //                   设置可访问私有
                     field.setAccessible(true);

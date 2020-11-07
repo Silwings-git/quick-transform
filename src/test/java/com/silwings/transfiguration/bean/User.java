@@ -3,6 +3,7 @@ package com.silwings.transfiguration.bean;
 import com.silwings.transfiguration.annotation.MyComponent;
 import com.silwings.transfiguration.annotation.MyRestController;
 import com.silwings.transfiguration.annotation.*;
+import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
 
 /**
  * @ClassName User
@@ -14,7 +15,7 @@ import com.silwings.transfiguration.annotation.*;
 @MyRestController(name = "User类",value = "娃哈哈")
 @MyComponent(value = "aaa")
 @Transfiguration
-public class User {
+public class User{
     @MyRestController(name = "name",value = "小王")
     private String name;
     @MyRestController(name = "手机号",value = "12345678911")
@@ -42,4 +43,6 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
+
+
 }

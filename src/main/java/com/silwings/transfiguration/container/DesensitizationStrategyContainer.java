@@ -31,6 +31,7 @@ public class DesensitizationStrategyContainer {
         if (null != container.put(key, strategy)) {
             throw new RuntimeException("脱敏策略:" + key + "重复");
         }
+        System.out.println(key + "添加到容器成功");
         return this;
     }
 
