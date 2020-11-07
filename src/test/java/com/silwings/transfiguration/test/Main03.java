@@ -33,7 +33,7 @@ public class Main03 {
         for (Method declaredMethod : declaredMethods) {
             MethodDesensitization mergedAnnotation = AnnotatedElementUtils.findMergedAnnotation(declaredMethod, MethodDesensitization.class);
             if (null != mergedAnnotation) {
-                Class<? extends Annotation> strategyAnno = mergedAnnotation.strategyAnno();
+                Class<? extends Annotation> strategyAnno = null;
                 Field[] declaredFields = strategyAnno.getDeclaredFields();
                 for (Field declaredField : declaredFields) {
                     System.out.println("declaredField = " + declaredField);
@@ -69,7 +69,7 @@ public class Main03 {
         }
     }
 
-    @MethodDesensitization(strategyAnno = NameDesensitization.class)
+//    @MethodDesensitization(strategyAnno = NameDesensitization.class)
     public static void demo2() {
         String s = "12345678";
 

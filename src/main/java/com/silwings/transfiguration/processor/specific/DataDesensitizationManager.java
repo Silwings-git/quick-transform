@@ -37,7 +37,7 @@ public class DataDesensitizationManager implements DesensitizationManager {
     }
 
     @Override
-    public Object desensitization(Object body, MethodDesensitization dataDesensitization) {
+    public Object desensitization(Object body, DataDesensitization dataDesensitization) {
         if (null == body) {
             return body;
         }
@@ -83,6 +83,17 @@ public class DataDesensitizationManager implements DesensitizationManager {
     }
 
     @Override
+    public Object desensitizationBasicType(Object body, DataDesensitization methodDesensitization) {
+        Objects.requireNonNull(methodDesensitization, "DataDesensitization不可未空");
+        if (null != body && methodDesensitization.execute()) {
+            DesensitizationStrategy strategy = desensitizationStrategyContainer.getStrategy(methodDesensitization.strategy());
+            Objects.requireNonNull(strategy, methodDesensitization.strategy().getName() + " 实例未找到,请检查是否已添加到Spring容器");
+            body = desensitizationHandler.execute(body, strategy);
+        }
+        return body;
+    }
+
+    @Override
     public Object desensitizationBasicType(Object body, MethodDesensitization methodDesensitization) {
         Objects.requireNonNull(methodDesensitization, "MethodDesensitization不可未空");
         if (null != body && methodDesensitization.execute()) {
@@ -92,4 +103,5 @@ public class DataDesensitizationManager implements DesensitizationManager {
         }
         return body;
     }
+
 }

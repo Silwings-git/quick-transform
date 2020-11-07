@@ -1,5 +1,6 @@
 package com.silwings.transfiguration.advice;
 
+import com.silwings.transfiguration.annotation.DataDesensitization;
 import com.silwings.transfiguration.annotation.MethodDesensitization;
 import com.silwings.transfiguration.annotation.Transfiguration;
 import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
@@ -30,36 +31,45 @@ public class DesensitizationAdvice {
         this.desensitizationManager = desensitizationManager;
     }
 
-    @Pointcut("@annotation(com.silwings.transfiguration.annotation.MethodDesensitization)")
+    @Pointcut("@annotation(com.silwings.transfiguration.annotation.MethodDesensitization)" +
+            "||@annotation(com.silwings.transfiguration.annotation.NameDesensitization)" +
+            "|| @annotation(com.silwings.transfiguration.annotation.PhoneDesensitization)")
     public void desensitizationPointCut() {
     }
 
-    @Around("desensitizationPointCut() && @annotation(methodDesensitization)")
-    public Object handleExceptionLog(ProceedingJoinPoint jp, MethodDesensitization methodDesensitization) throws Throwable {
+    @Around("desensitizationPointCut()")
+    public Object handleExceptionLog(ProceedingJoinPoint jp) throws Throwable {
 //        如果要对返回单数据做处理需要如下判断
         /*
             1.需要使用就近原则,也就是如果类上有注解就使用类上的策略,如果类上没有注解,再考虑当前被切的方法上的注解
             2.拿到方法的返回值直接获取class去判断即可
             3.通过方法名和参数类型获取实际执行的方法,在获取方法上的注解
          */
-
+        System.out.println("jru");
         // 调用切点方法
         Object result = jp.proceed();
-        if (methodDesensitization.execute() && null != result) {
-            Class<?> resultClass = result.getClass();
-            Transfiguration mergedAnnotation = AnnotatedElementUtils.findMergedAnnotation(resultClass, Transfiguration.class);
-            if (null != mergedAnnotation) {
+        if (null == result) {
+            return result;
+        }
+        Class<?> resultClass = result.getClass();
+        Transfiguration mergedAnnotation = AnnotatedElementUtils.findMergedAnnotation(resultClass, Transfiguration.class);
+        if (null != mergedAnnotation) {
 //              如果不存在Transfiguration注解说明
 //              1.该对象未标记为需要脱敏
 //              2.该返回值不是用户自定义类型
-                result = desensitizationManager.desensitizationOtherType(result);
+            result = desensitizationManager.desensitizationOtherType(result);
+        } else {
+            if (!ReflectUtil.isCommonOrWrapOrString(result)) {
+                System.out.println("返回值:" + result.getClass().getName() + "既不是基本数据类型/字符串类型也不是添加了@Transfiguration注解的实体类类型,不支持脱敏");
             } else {
 //                方法层级的
-//                Method method = getMethod(jp);
-//                DataDesensitization dataDesensitization = AnnotatedElementUtils.findMergedAnnotation(method, DataDesensitization.class);
+                Method method = getMethod(jp);
 //              方法上存在注解,需要判断结果是什么类型,如果是基本数据类型,就需要调用,不是就不进行任何处理
-                if (!methodDesensitization.strategy().getName().equals(DesensitizationStrategy.class.getName())
-                        && ReflectUtil.isCommonOrWrapOrString(result)) {
+                MethodDesensitization methodDesensitization = AnnotatedElementUtils.findMergedAnnotation(method, MethodDesensitization.class);
+                if (null == methodDesensitization) {
+                    DataDesensitization dataDesensitization = AnnotatedElementUtils.findMergedAnnotation(method, DataDesensitization.class);
+                    result = desensitizationManager.desensitizationBasicType(result, dataDesensitization);
+                } else if (!methodDesensitization.strategy().getName().equals(DesensitizationStrategy.class.getName())) {
                     result = desensitizationManager.desensitizationBasicType(result, methodDesensitization);
                 } else {
                     System.out.println("未指定脱敏规则，不进行数据处理");

@@ -21,11 +21,12 @@ public interface DesensitizationManager {
      * @param dataDesensitization
      * @return java.lang.Object
      */
-    Object desensitization(Object body, MethodDesensitization dataDesensitization);
+    Object desensitization(Object body, DataDesensitization dataDesensitization);
 
     Object desensitizationOtherType(Object body);
 
-    Object desensitizationBasicType(Object body, MethodDesensitization dataDesensitization);
+    Object desensitizationBasicType(Object body, DataDesensitization dataDesensitization);
 
 
+    Object desensitizationBasicType(Object body, MethodDesensitization methodDesensitization);
 }

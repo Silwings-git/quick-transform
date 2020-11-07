@@ -26,7 +26,4 @@ public @interface MethodDesensitization {
      */
     Class<? extends DesensitizationStrategy> strategy() default DesensitizationStrategy.class;
 
-
-    Class<? extends Annotation> strategyAnno() default DataDesensitization.class;
-
 }
