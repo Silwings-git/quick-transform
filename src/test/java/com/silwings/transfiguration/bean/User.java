@@ -2,6 +2,7 @@ package com.silwings.transfiguration.bean;
 
 import com.silwings.transfiguration.annotation.MyComponent;
 import com.silwings.transfiguration.annotation.MyRestController;
+import com.silwings.transfiguration.annotation.*;
 
 /**
  * @ClassName User
@@ -12,6 +13,7 @@ import com.silwings.transfiguration.annotation.MyRestController;
  **/
 @MyRestController(name = "User类",value = "娃哈哈")
 @MyComponent(value = "aaa")
+@Transfiguration
 public class User {
     @MyRestController(name = "name",value = "小王")
     private String name;

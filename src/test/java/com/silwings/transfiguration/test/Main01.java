@@ -1,5 +1,6 @@
 package com.silwings.transfiguration.test;
 
+import com.silwings.transfiguration.annotation.DataDesensitization;
 import com.silwings.transfiguration.annotation.MyComponent;
 import com.silwings.transfiguration.annotation.MyResponseBody;
 import com.silwings.transfiguration.annotation.MyRestController;
@@ -9,6 +10,7 @@ import org.springframework.core.annotation.AnnotationUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -20,8 +22,20 @@ import java.util.Set;
  * @Version V1.0
  **/
 public class Main01 {
-    public static void main(String[] args) {
-        demo2();
+    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
+        demo4();
+    }
+
+    private static void demo4() throws NoSuchFieldException, IllegalAccessException {
+        User user = new User();
+        for (Field field : User.class.getDeclaredFields()) {
+            MyRestController mergedAnnotation = AnnotatedElementUtils.findMergedAnnotation(field, MyRestController.class);
+            System.out.println("mergedAnnotation = " + mergedAnnotation);
+
+            field.setAccessible(true);
+            Object o = field.get(user);
+            System.out.println("o = " + o);
+        }
     }
 
     private static void demo3() {
@@ -41,14 +55,14 @@ public class Main01 {
     private static void demo2() {
         User user = new User();
         MyRestController annotation = AnnotationUtils.findAnnotation(User.class, MyRestController.class);
-        System.out.println(annotation.name() + annotation.value());
+//        System.out.println(annotation.name() + annotation.value());
 //        MyComponent mergedAnnotation = AnnotatedElementUtils.findMergedAnnotation(annotation.getClass(), MyComponent.class);
-        MyComponent mergedAnnotation = AnnotatedElementUtils.findMergedAnnotation(user.getClass(), MyComponent.class);
+        DataDesensitization mergedAnnotation = AnnotatedElementUtils.findMergedAnnotation(user.getClass(), DataDesensitization.class);
         MyResponseBody myResponseBody = AnnotatedElementUtils.findMergedAnnotation(user.getClass(), MyResponseBody.class);
         if (null == mergedAnnotation) {
             System.out.println("null");
         } else {
-            System.out.println(mergedAnnotation.value());
+            System.out.println(mergedAnnotation);
         }
         System.out.println("myResponseBody = " + myResponseBody.name());
 

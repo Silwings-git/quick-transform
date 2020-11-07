@@ -8,7 +8,5 @@ package com.silwings.transfiguration.desensitization_strategy;
  * @Version V1.0
  **/
 public interface DesensitizationStrategy <T>{
-    boolean apply(Object obj);
-
     T desensitization(T t);
 }

@@ -12,11 +12,6 @@ import com.silwings.transfiguration.desensitization_strategy.DesensitizationStra
 public class PhoneDesensitizationStrategy implements DesensitizationStrategy<String> {
 
     @Override
-    public boolean apply(Object obj) {
-        return true;
-    }
-
-    @Override
     public String desensitization(String phone) {
         if (null == phone || phone.length() == 0) {
             return phone;

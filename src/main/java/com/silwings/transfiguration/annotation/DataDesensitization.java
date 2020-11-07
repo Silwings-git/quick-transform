@@ -1,5 +1,7 @@
 package com.silwings.transfiguration.annotation;
 
+import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -13,7 +15,15 @@ import java.lang.annotation.Target;
  * @Version V1.0
  **/
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.FIELD,ElementType.METHOD})
+@Target(value = {ElementType.FIELD, ElementType.METHOD})
 public @interface DataDesensitization {
-    String desensitizationStrategyName();
+    /**
+     * 是否执行脱敏,默认是
+     */
+    boolean execute() default true;
+
+    /**
+     * 策略类class
+     */
+    Class<? extends DesensitizationStrategy> strategy();
 }

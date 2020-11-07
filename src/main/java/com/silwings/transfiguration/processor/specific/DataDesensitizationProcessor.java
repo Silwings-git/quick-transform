@@ -1,11 +1,14 @@
 package com.silwings.transfiguration.processor.specific;
 
+import com.silwings.transfiguration.annotation.DataDesensitization;
+import com.silwings.transfiguration.container.DesensitizationStrategyContainer;
 import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
+import com.silwings.transfiguration.handler.DesensitizationHandler;
 import com.silwings.transfiguration.processor.DesensitizationProcessor;
 import com.silwings.transfiguration.utils.ReflectUtil;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,12 +20,13 @@ import java.util.Objects;
  * @Version V1.0
  **/
 public class DataDesensitizationProcessor implements DesensitizationProcessor {
-    private HashMap<String, DesensitizationStrategy> desensitizationStrategyMap = new HashMap<>(16);
 
-    public HashMap<String, DesensitizationStrategy> addDesensitizationStrategy(DesensitizationStrategy desensitizationStrategy) {
-        Objects.requireNonNull(desensitizationStrategy);
-        desensitizationStrategyMap.put(desensitizationStrategy.getClass().getName(), desensitizationStrategy);
-        return desensitizationStrategyMap;
+    private DesensitizationStrategyContainer desensitizationStrategyContainer;
+    private DesensitizationHandler desensitizationHandler;
+
+    public DataDesensitizationProcessor(DesensitizationStrategyContainer desensitizationStrategyContainer, DesensitizationHandler desensitizationHandler) {
+        this.desensitizationStrategyContainer = desensitizationStrategyContainer;
+        this.desensitizationHandler = desensitizationHandler;
     }
 
     @Override
@@ -33,7 +37,23 @@ public class DataDesensitizationProcessor implements DesensitizationProcessor {
         List<Field> allField = ReflectUtil.getFieldByCurrentAndSuper(body.getClass());
         if (null != allField && allField.size() > 0) {
 //            获取到字段信息,进行注解遍历
-
+            for (int i = 0; i < allField.size(); i++) {
+                Field field = allField.get(i);
+                DataDesensitization mergedAnnotation = AnnotatedElementUtils.findMergedAnnotation(field, DataDesensitization.class);
+//                如果不存在注解或者execute值为false说明无需进行处理
+                if (null == mergedAnnotation || !mergedAnnotation.execute()) {
+                    continue;
+                }
+                DesensitizationStrategy strategy = desensitizationStrategyContainer.getStrategy(mergedAnnotation.strategy());
+                try {
+//                   设置可访问私有
+                    field.setAccessible(true);
+                    Object execute = desensitizationHandler.execute(field.get(body), strategy);
+                    field.set(body, execute);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return body;
     }
