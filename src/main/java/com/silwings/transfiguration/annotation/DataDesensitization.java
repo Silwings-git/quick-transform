@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
  * @Version V1.0
  **/
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.FIELD, ElementType.METHOD})
+@Target(value = {ElementType.FIELD, ElementType.METHOD,ElementType.ANNOTATION_TYPE})
 public @interface DataDesensitization {
     /**
      * 是否执行脱敏,默认是
