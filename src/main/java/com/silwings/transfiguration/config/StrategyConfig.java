@@ -61,6 +61,11 @@ public class StrategyConfig implements ApplicationContextAware {
     }
 
     @Bean
+    public EmailDesensitizationStrategy emailDesensitizationStrategy() {
+        return new EmailDesensitizationStrategy(desensitizationProperties);
+    }
+
+    @Bean
     public DesensitizationStrategyContainer desensitizationStrategyContainer() {
         Map<String, DesensitizationStrategy> beansOfType = applicationContext.getBeansOfType(DesensitizationStrategy.class);
         DesensitizationStrategyContainer container = DesensitizationStrategyContainer.getInstance();
