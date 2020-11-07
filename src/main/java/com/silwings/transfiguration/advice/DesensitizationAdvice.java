@@ -39,6 +39,7 @@ public class DesensitizationAdvice {
             "|| @annotation(com.silwings.transfiguration.annotation.PhoneDesensitization)" +
             "|| @annotation(com.silwings.transfiguration.annotation.PasswordDesensitization)" +
             "|| @annotation(com.silwings.transfiguration.annotation.IdCardDesensitization)" +
+            "|| @annotation(com.silwings.transfiguration.annotation.BankCardDesensitization)" +
             "|| @annotation(com.silwings.transfiguration.annotation.DataDesensitization)")
     public void desensitizationPointCut() {
     }
