@@ -2,9 +2,7 @@ package com.silwings.transfiguration.utils;
 
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -399,7 +397,7 @@ public class ReflectUtil {
      * @param clazz 需要校验的Class对象
      * @return boolean 是返回true
      */
-    private static boolean isCommonOrWrap(Class clazz) {
+    public static boolean isCommonOrWrap(Class clazz) {
         return isCommonDataType(clazz) || isWrapClass(clazz);
     }
 
@@ -488,6 +486,38 @@ public class ReflectUtil {
         return resultFieldList;
     }
 
+    /**
+     * description: 获取超类的通用类型
+     * version: 1.0
+     * date: 2020/11/7 17:21
+     * author: 崔益翔
+     * @param aClass
+     * @param index
+     * @return java.lang.Class
+     */
+    public static Class getSuperClassGenricType(Class<?> aClass, int index) {
+        Type genType = aClass.getGenericSuperclass();
+        if (!(genType instanceof ParameterizedType)) {
+            return Object.class;
+        }
+
+        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+
+        if (index >= params.length || index < 0) {
+            return Object.class;
+        }
+
+        if (!(params[index] instanceof Class)) {
+            return Object.class;
+        }
+
+        return (Class) params[index];
+
+    }
+
+    public static Class getSuperClassGenricType(Class<?> aClass) {
+        return getSuperClassGenricType(aClass, 0);
+    }
 }
 
 

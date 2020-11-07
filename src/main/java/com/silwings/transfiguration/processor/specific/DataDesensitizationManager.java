@@ -36,7 +36,23 @@ public class DataDesensitizationManager implements DesensitizationManager {
     }
 
     @Override
-    public Object desensitization(Object body) {
+    public Object desensitization(Object body, DataDesensitization dataDesensitization) {
+        if (null == body) {
+            return body;
+        }
+        Object result = null;
+        if (ReflectUtil.isCommonOrWrap(body.getClass())) {
+//            是基本数据类型
+            result = desensitizationBasicType(body,dataDesensitization);
+        } else {
+//            非基本数据类型
+            result = desensitizationOtherType(body);
+        }
+        return result;
+    }
+
+    @Override
+    public Object desensitizationOtherType(Object body) {
         Objects.requireNonNull(body, "body must be not null !");
         System.out.println("body:" + body);
 //        此处拿到对象,应该遍历对象所有变量的注解,并使用注解名称获取desensitizationStrategyMap中对应的脱敏策略进行数据转换
@@ -63,5 +79,10 @@ public class DataDesensitizationManager implements DesensitizationManager {
             }
         }
         return body;
+    }
+
+    @Override
+    public Object desensitizationBasicType(Object body, DataDesensitization dataDesensitization) {
+        return null;
     }
 }

@@ -1,5 +1,7 @@
 package com.silwings.transfiguration.processor;
 
+import com.silwings.transfiguration.annotation.DataDesensitization;
+
 /**
  * @ClassName DesensitizationManager
  * @Description 脱敏管理器抽象
@@ -13,8 +15,16 @@ public interface DesensitizationManager {
      * version: 1.0
      * date: 2020/11/5 21:37
      * author: 崔益翔
+     *
      * @param body
+     * @param dataDesensitization
      * @return java.lang.Object
      */
-    Object desensitization(Object body);
+    Object desensitization(Object body, DataDesensitization dataDesensitization);
+
+    Object desensitizationOtherType(Object body);
+
+    Object desensitizationBasicType(Object body, DataDesensitization dataDesensitization);
+
+
 }

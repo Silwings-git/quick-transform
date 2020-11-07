@@ -41,7 +41,7 @@ public class TransfigurationConfig {
     }
 
     @Bean
-    public DesensitizationManager desensitizationProcessor() {
+    public DesensitizationManager desensitizationManager() {
         return new DataDesensitizationManager(desensitizationStrategyContainer, desensitizationHandler());
     }
 
@@ -52,7 +52,8 @@ public class TransfigurationConfig {
 
     @Bean
     public DesensitizationAdvice desensitizationAdvice() {
-        return new DesensitizationAdvice();
+        return new DesensitizationAdvice(desensitizationManager());
     }
+
 
 }
