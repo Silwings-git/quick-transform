@@ -6,8 +6,8 @@ import com.silwings.transfiguration.desensitization_strategy.DesensitizationStra
 import com.silwings.transfiguration.desensitization_strategy.specific.PhoneDesensitizationStrategy;
 import com.silwings.transfiguration.handler.DesensitizationHandler;
 import com.silwings.transfiguration.handler.specific.DesensitizationHandlerImpl;
-import com.silwings.transfiguration.processor.DesensitizationProcessor;
-import com.silwings.transfiguration.processor.specific.DataDesensitizationProcessor;
+import com.silwings.transfiguration.processor.DesensitizationManager;
+import com.silwings.transfiguration.processor.specific.DataDesensitizationManager;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -43,8 +43,8 @@ public class TransfigurationConfig implements ApplicationContextAware {
     }
 
     @Bean
-    public DesensitizationProcessor desensitizationProcessor() {
-        return new DataDesensitizationProcessor(applicationContext.getBean("desensitizationStrategyContainer", DesensitizationStrategyContainer.class)
+    public DesensitizationManager desensitizationProcessor() {
+        return new DataDesensitizationManager(applicationContext.getBean("desensitizationStrategyContainer", DesensitizationStrategyContainer.class)
                 , desensitizationHandler());
     }
 

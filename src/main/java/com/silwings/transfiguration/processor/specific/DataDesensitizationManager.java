@@ -4,7 +4,7 @@ import com.silwings.transfiguration.annotation.DataDesensitization;
 import com.silwings.transfiguration.container.DesensitizationStrategyContainer;
 import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
 import com.silwings.transfiguration.handler.DesensitizationHandler;
-import com.silwings.transfiguration.processor.DesensitizationProcessor;
+import com.silwings.transfiguration.processor.DesensitizationManager;
 import com.silwings.transfiguration.utils.ReflectUtil;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 
@@ -13,18 +13,22 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @ClassName DataDesensitizationProcessor
- * @Description TODO
+ * @ClassName DataDesensitizationManager
+ * @Description 脱敏管理器
+ * 1.负责检查实体类属性的注解信息,如果发现指定注解,标明该属性需要脱敏操作
+ * 2.根据注解的属性信息从`脱敏策略容器`获取脱敏策略对象
+ * 3.将具体策略对象与待脱敏属性的值交给脱敏执行器
+ * 4.用从脱敏执行器获取到的新值覆盖待脱敏属性的旧值
  * @Author 崔益翔
  * @Date 2020/10/11 11:51
  * @Version V1.0
  **/
-public class DataDesensitizationProcessor implements DesensitizationProcessor {
+public class DataDesensitizationManager implements DesensitizationManager {
 
     private DesensitizationStrategyContainer desensitizationStrategyContainer;
     private DesensitizationHandler desensitizationHandler;
 
-    public DataDesensitizationProcessor(DesensitizationStrategyContainer desensitizationStrategyContainer, DesensitizationHandler desensitizationHandler) {
+    public DataDesensitizationManager(DesensitizationStrategyContainer desensitizationStrategyContainer, DesensitizationHandler desensitizationHandler) {
         this.desensitizationStrategyContainer = desensitizationStrategyContainer;
         this.desensitizationHandler = desensitizationHandler;
     }
