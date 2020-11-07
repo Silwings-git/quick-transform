@@ -1,11 +1,10 @@
 package com.silwings.transfiguration.annotation;
 
 import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
+import com.silwings.transfiguration.desensitization_strategy.specific.NameDesensitizationStrategy;
+import org.springframework.stereotype.Controller;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * @ClassName MethodDesensitization
@@ -26,4 +25,8 @@ public @interface MethodDesensitization {
      * 策略类class,如果返回值是
      */
     Class<? extends DesensitizationStrategy> strategy() default DesensitizationStrategy.class;
+
+
+    Class<? extends Annotation> strategyAnno() default DataDesensitization.class;
+
 }
