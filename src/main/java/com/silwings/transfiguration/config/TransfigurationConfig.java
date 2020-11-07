@@ -1,5 +1,6 @@
 package com.silwings.transfiguration.config;
 
+import com.silwings.transfiguration.advice.DesensitizationAdvice;
 import com.silwings.transfiguration.container.DesensitizationStrategyContainer;
 import com.silwings.transfiguration.controller_advice.TransfigurationResponseBodyAdvice;
 import com.silwings.transfiguration.handler.DesensitizationHandler;
@@ -47,6 +48,11 @@ public class TransfigurationConfig {
     @Bean
     public DesensitizationHandler desensitizationHandler() {
         return new DesensitizationHandlerImpl();
+    }
+
+    @Bean
+    public DesensitizationAdvice desensitizationAdvice() {
+        return new DesensitizationAdvice();
     }
 
 }
