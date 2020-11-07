@@ -7,6 +7,7 @@ import com.silwings.transfiguration.handler.DesensitizationHandler;
 import com.silwings.transfiguration.handler.specific.DesensitizationHandlerImpl;
 import com.silwings.transfiguration.processor.DesensitizationManager;
 import com.silwings.transfiguration.processor.specific.DataDesensitizationManager;
+import com.silwings.transfiguration.properties.DesensitizationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,9 +21,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class TransfigurationConfig {
 
+    private DesensitizationProperties desensitizationProperties;
+
     private DesensitizationStrategyContainer desensitizationStrategyContainer;
 
-    public TransfigurationConfig(DesensitizationStrategyContainer desensitizationStrategyContainer) {
+    public TransfigurationConfig(DesensitizationProperties desensitizationProperties, DesensitizationStrategyContainer desensitizationStrategyContainer) {
+        this.desensitizationProperties = desensitizationProperties;
         this.desensitizationStrategyContainer = desensitizationStrategyContainer;
     }
 
@@ -37,7 +41,7 @@ public class TransfigurationConfig {
      */
     @Bean
     public TransfigurationResponseBodyAdvice transfigurationResponseBodyAdvice() {
-        return new TransfigurationResponseBodyAdvice();
+        return desensitizationProperties.isOpenResponseBodyTransition() ? new TransfigurationResponseBodyAdvice() : null;
     }
 
     @Bean

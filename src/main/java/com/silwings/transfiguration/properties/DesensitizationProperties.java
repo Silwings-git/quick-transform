@@ -11,6 +11,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  **/
 @ConfigurationProperties(prefix = "desensitization")
 public class DesensitizationProperties {
+    private boolean openResponseBodyTransition= false;
+
     private String replaceSymbol = "*";
 
     public Character getReplaceSymbol() {
@@ -19,5 +21,13 @@ public class DesensitizationProperties {
 
     public void setReplaceSymbol(String replaceSymbol) {
         this.replaceSymbol = replaceSymbol;
+    }
+
+    public boolean isOpenResponseBodyTransition() {
+        return openResponseBodyTransition;
+    }
+
+    public void setOpenResponseBodyTransition(boolean openResponseBodyTransition) {
+        this.openResponseBodyTransition = openResponseBodyTransition;
     }
 }

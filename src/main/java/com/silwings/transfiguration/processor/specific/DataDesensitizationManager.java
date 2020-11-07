@@ -1,6 +1,7 @@
 package com.silwings.transfiguration.processor.specific;
 
 import com.silwings.transfiguration.annotation.DataDesensitization;
+import com.silwings.transfiguration.annotation.MethodDesensitization;
 import com.silwings.transfiguration.container.DesensitizationStrategyContainer;
 import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
 import com.silwings.transfiguration.handler.DesensitizationHandler;
@@ -36,7 +37,7 @@ public class DataDesensitizationManager implements DesensitizationManager {
     }
 
     @Override
-    public Object desensitization(Object body, DataDesensitization dataDesensitization) {
+    public Object desensitization(Object body, MethodDesensitization dataDesensitization) {
         if (null == body) {
             return body;
         }
@@ -82,7 +83,7 @@ public class DataDesensitizationManager implements DesensitizationManager {
     }
 
     @Override
-    public Object desensitizationBasicType(Object body, DataDesensitization dataDesensitization) {
+    public Object desensitizationBasicType(Object body, MethodDesensitization dataDesensitization) {
         return null;
     }
 }

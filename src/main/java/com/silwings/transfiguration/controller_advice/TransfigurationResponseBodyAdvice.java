@@ -73,7 +73,7 @@ public class TransfigurationResponseBodyAdvice implements ResponseBodyAdvice {
             }
         }
         if (null == desensitizationClass) {
-//            body = desensitizationManager.desensitizationOtherType(body);
+            body = desensitizationManager.desensitizationOtherType(body);
         }
         return body;
     }

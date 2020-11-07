@@ -1,6 +1,7 @@
 package com.silwings.transfiguration.processor;
 
 import com.silwings.transfiguration.annotation.DataDesensitization;
+import com.silwings.transfiguration.annotation.MethodDesensitization;
 
 /**
  * @ClassName DesensitizationManager
@@ -20,11 +21,11 @@ public interface DesensitizationManager {
      * @param dataDesensitization
      * @return java.lang.Object
      */
-    Object desensitization(Object body, DataDesensitization dataDesensitization);
+    Object desensitization(Object body, MethodDesensitization dataDesensitization);
 
     Object desensitizationOtherType(Object body);
 
-    Object desensitizationBasicType(Object body, DataDesensitization dataDesensitization);
+    Object desensitizationBasicType(Object body, MethodDesensitization dataDesensitization);
 
 
 }
