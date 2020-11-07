@@ -2,19 +2,12 @@ package com.silwings.transfiguration.config;
 
 import com.silwings.transfiguration.container.DesensitizationStrategyContainer;
 import com.silwings.transfiguration.controller_advice.TransfigurationResponseBodyAdvice;
-import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
-import com.silwings.transfiguration.desensitization_strategy.specific.PhoneDesensitizationStrategy;
 import com.silwings.transfiguration.handler.DesensitizationHandler;
 import com.silwings.transfiguration.handler.specific.DesensitizationHandlerImpl;
 import com.silwings.transfiguration.processor.DesensitizationManager;
 import com.silwings.transfiguration.processor.specific.DataDesensitizationManager;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Map;
 
 /**
  * @ClassName DemoConfig
@@ -24,9 +17,13 @@ import java.util.Map;
  * @Version V1.0
  **/
 @Configuration
-public class TransfigurationConfig implements ApplicationContextAware {
+public class TransfigurationConfig {
 
-    private ApplicationContext applicationContext;
+    private DesensitizationStrategyContainer desensitizationStrategyContainer;
+
+    public TransfigurationConfig(DesensitizationStrategyContainer desensitizationStrategyContainer) {
+        this.desensitizationStrategyContainer = desensitizationStrategyContainer;
+    }
 
     /**
      * description: 响应体增强
@@ -44,25 +41,7 @@ public class TransfigurationConfig implements ApplicationContextAware {
 
     @Bean
     public DesensitizationManager desensitizationProcessor() {
-        return new DataDesensitizationManager(applicationContext.getBean("desensitizationStrategyContainer", DesensitizationStrategyContainer.class)
-                , desensitizationHandler());
-    }
-
-    @Bean
-    public DesensitizationStrategyContainer desensitizationStrategyContainer() {
-        Map<String, DesensitizationStrategy> beansOfType = applicationContext.getBeansOfType(DesensitizationStrategy.class);
-        DesensitizationStrategyContainer container = DesensitizationStrategyContainer.getInstance();
-        if (null != beansOfType && beansOfType.keySet().size() > 0) {
-            for (String key : beansOfType.keySet()) {
-                container.addStrategy(beansOfType.get(key));
-            }
-        }
-        return container;
-    }
-
-    @Bean
-    public PhoneDesensitizationStrategy phoneDesensitizationStrategy() {
-        return new PhoneDesensitizationStrategy();
+        return new DataDesensitizationManager(desensitizationStrategyContainer, desensitizationHandler());
     }
 
     @Bean
@@ -70,8 +49,4 @@ public class TransfigurationConfig implements ApplicationContextAware {
         return new DesensitizationHandlerImpl();
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
 }

@@ -1,2 +1,2 @@
 #-------starter自动装配---------
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.silwings.transfiguration.config.TransfigurationConfig
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.silwings.transfiguration.config.TransfigurationConfig,com.silwings.transfiguration.config.StrategyConfig

@@ -29,6 +29,8 @@ public class DataDesensitizationManager implements DesensitizationManager {
     private DesensitizationHandler desensitizationHandler;
 
     public DataDesensitizationManager(DesensitizationStrategyContainer desensitizationStrategyContainer, DesensitizationHandler desensitizationHandler) {
+        Objects.requireNonNull(desensitizationStrategyContainer, "策略容器不可为空");
+        Objects.requireNonNull(desensitizationHandler, "脱敏执行器不可为空");
         this.desensitizationStrategyContainer = desensitizationStrategyContainer;
         this.desensitizationHandler = desensitizationHandler;
     }
