@@ -20,7 +20,7 @@ public class DesensitizationProperties {
      * 例被作为向客户端返回的结果返回时,会在响应体增强中对其进行数据脱敏
      * 3.无需担心方法上与响应体增强中提示添加注解发生冲突,遵循就近原则
      */
-    private boolean openResponseBodyTransition= false;
+    private boolean openResponseBodyTransition = false;
 
     /**
      * 设置用来替换原值的字符
@@ -31,6 +31,15 @@ public class DesensitizationProperties {
 
     public Character getReplaceSymbol() {
         return replaceSymbol.charAt(0);
+    }
+
+    public String getReplaceSymbol(int num) {
+        char charAt = replaceSymbol.charAt(0);
+        StringBuffer buffer = new StringBuffer(num);
+        for (int i = 0; i < num; i++) {
+            buffer.append(charAt);
+        }
+        return buffer.toString();
     }
 
     public void setReplaceSymbol(String replaceSymbol) {

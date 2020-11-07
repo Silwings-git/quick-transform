@@ -35,9 +35,7 @@ public class NameDesensitizationStrategy implements DesensitizationStrategy<Stri
             if (length > 0) {
                 StringBuffer stringBuffer = new StringBuffer(length);
                 stringBuffer.append(name.subSequence(0, 1));
-                for (int i = 1; i < length; i++) {
-                    stringBuffer.append(desensitizationProperties.getReplaceSymbol());
-                }
+                stringBuffer.append(desensitizationProperties.getReplaceSymbol(length-1));
                 newName = stringBuffer.toString();
             }
         }

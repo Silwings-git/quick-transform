@@ -34,18 +34,8 @@ public class PhoneDesensitizationStrategy implements DesensitizationStrategy<Str
         if (null == phone || phone.length() == 0) {
             return phone;
         }
-        char[] chars = phone.toCharArray();
-//        只对手机号做简单的校验,这里只负责脱敏,不负责手机号的正确性
-        if (chars.length == 11) {
-            for (int i = 3; i < chars.length - 3; i++) {
-                chars[i] = desensitizationProperties.getReplaceSymbol();
-            }
-        } else {
-//            如果数据不符合要求全部屏蔽
-            for (int i = 0; i < chars.length; i++) {
-                chars[i] = desensitizationProperties.getReplaceSymbol();
-            }
-        }
-        return String.valueOf(chars);
+        StringBuffer buffer = new StringBuffer(phone);
+        buffer.replace(3, 8, desensitizationProperties.getReplaceSymbol(5));
+        return buffer.toString();
     }
 }

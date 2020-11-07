@@ -2,7 +2,9 @@ package com.silwings.transfiguration.config;
 
 import com.silwings.transfiguration.container.DesensitizationStrategyContainer;
 import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
+import com.silwings.transfiguration.desensitization_strategy.specific.IdCardDesensitizationStrategy;
 import com.silwings.transfiguration.desensitization_strategy.specific.NameDesensitizationStrategy;
+import com.silwings.transfiguration.desensitization_strategy.specific.PasswordDesensitizationStrategy;
 import com.silwings.transfiguration.desensitization_strategy.specific.PhoneDesensitizationStrategy;
 import com.silwings.transfiguration.properties.DesensitizationProperties;
 import org.springframework.beans.BeansException;
@@ -39,6 +41,16 @@ public class StrategyConfig implements ApplicationContextAware {
     @Bean
     public NameDesensitizationStrategy nameDesensitizationStrategy() {
         return new NameDesensitizationStrategy(desensitizationProperties);
+    }
+
+    @Bean
+    public PasswordDesensitizationStrategy passwordDesensitizationStrategy() {
+        return new PasswordDesensitizationStrategy(desensitizationProperties);
+    }
+
+    @Bean
+    public IdCardDesensitizationStrategy idCardDesensitizationStrategy() {
+        return new IdCardDesensitizationStrategy(desensitizationProperties);
     }
 
     @Bean
