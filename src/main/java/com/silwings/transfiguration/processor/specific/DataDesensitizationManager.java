@@ -42,9 +42,9 @@ public class DataDesensitizationManager implements DesensitizationManager {
             return body;
         }
         Object result = null;
-        if (ReflectUtil.isCommonOrWrap(body.getClass())) {
+        if (ReflectUtil.isCommonOrWrapOrString(body)) {
 //            是基本数据类型
-            result = desensitizationBasicType(body,dataDesensitization);
+            result = desensitizationBasicType(body, dataDesensitization);
         } else {
 //            非基本数据类型
             result = desensitizationOtherType(body);
@@ -83,7 +83,13 @@ public class DataDesensitizationManager implements DesensitizationManager {
     }
 
     @Override
-    public Object desensitizationBasicType(Object body, MethodDesensitization dataDesensitization) {
-        return null;
+    public Object desensitizationBasicType(Object body, MethodDesensitization methodDesensitization) {
+        Objects.requireNonNull(methodDesensitization, "MethodDesensitization不可未空");
+        if (null != body && methodDesensitization.execute()) {
+            DesensitizationStrategy strategy = desensitizationStrategyContainer.getStrategy(methodDesensitization.strategy());
+            Objects.requireNonNull(strategy, methodDesensitization.strategy().getName() + " 实例未找到,请检查是否已添加到Spring容器");
+            body = desensitizationHandler.execute(body, strategy);
+        }
+        return body;
     }
 }

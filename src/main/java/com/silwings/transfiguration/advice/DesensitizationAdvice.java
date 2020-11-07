@@ -1,6 +1,5 @@
 package com.silwings.transfiguration.advice;
 
-import com.silwings.transfiguration.annotation.DataDesensitization;
 import com.silwings.transfiguration.annotation.MethodDesensitization;
 import com.silwings.transfiguration.annotation.Transfiguration;
 import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
@@ -11,7 +10,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 
 import java.lang.reflect.Method;
@@ -54,21 +52,20 @@ public class DesensitizationAdvice {
 //              如果不存在Transfiguration注解说明
 //              1.该对象未标记为需要脱敏
 //              2.该返回值不是用户自定义类型
-                desensitizationManager.desensitizationOtherType(result);
+                result = desensitizationManager.desensitizationOtherType(result);
             } else {
 //                方法层级的
 //                Method method = getMethod(jp);
 //                DataDesensitization dataDesensitization = AnnotatedElementUtils.findMergedAnnotation(method, DataDesensitization.class);
 //              方法上存在注解,需要判断结果是什么类型,如果是基本数据类型,就需要调用,不是就不进行任何处理
                 if (!methodDesensitization.strategy().getName().equals(DesensitizationStrategy.class.getName())
-                        && ReflectUtil.isCommonOrWrap(resultClass)) {
-                    desensitizationManager.desensitizationBasicType(result, methodDesensitization);
+                        && ReflectUtil.isCommonOrWrapOrString(result)) {
+                    result = desensitizationManager.desensitizationBasicType(result, methodDesensitization);
                 } else {
                     System.out.println("未指定脱敏规则，不进行数据处理");
                 }
             }
         }
-
         return result;
     }
 

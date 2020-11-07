@@ -401,6 +401,14 @@ public class ReflectUtil {
         return isCommonDataType(clazz) || isWrapClass(clazz);
     }
 
+    public static boolean isCommonOrWrapOrString(Object obj) {
+        if (obj instanceof String) {
+            return true;
+        }
+        Class<?> clazz = obj.getClass();
+        return isCommonDataType(clazz) || isWrapClass(clazz);
+    }
+
     /**
      * 通过class类型获取获取对应类型的值
      *
@@ -491,6 +499,7 @@ public class ReflectUtil {
      * version: 1.0
      * date: 2020/11/7 17:21
      * author: 崔益翔
+     *
      * @param aClass
      * @param index
      * @return java.lang.Class
