@@ -34,7 +34,7 @@ public class EmailDesensitizationStrategy implements DesensitizationStrategy<Str
             int index = email.indexOf(AT);
             if (index > 0) {
                 StringBuffer buffer = new StringBuffer(email);
-                buffer.replace(1, index - 1, desensitizationProperties.getReplaceSymbol(index - 1));
+                buffer.replace(1, index, desensitizationProperties.getReplaceSymbol(index - 1));
                 newEmail = buffer.toString();
             }
         }
