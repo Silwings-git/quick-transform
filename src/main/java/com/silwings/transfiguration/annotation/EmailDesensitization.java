@@ -1,7 +1,6 @@
 package com.silwings.transfiguration.annotation;
 
 import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
-import com.silwings.transfiguration.desensitization_strategy.specific.BankCardDesensitizationStrategy;
 import com.silwings.transfiguration.desensitization_strategy.specific.EmailDesensitizationStrategy;
 import org.springframework.core.annotation.AliasFor;
 
