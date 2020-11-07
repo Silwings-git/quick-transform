@@ -11,13 +11,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  **/
 @ConfigurationProperties(prefix = "desensitization")
 public class DesensitizationProperties {
-    private String replaceSymbol = "*";
+    private Character replaceSymbol = '*';
 
-    public String getReplaceSymbol() {
+    public Character getReplaceSymbol() {
         return replaceSymbol;
     }
 
-    public void setReplaceSymbol(String replaceSymbol) {
+    public void setReplaceSymbol(Character replaceSymbol) {
         this.replaceSymbol = replaceSymbol;
     }
 }

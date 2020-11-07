@@ -1,6 +1,7 @@
 package com.silwings.transfiguration.desensitization_strategy.specific;
 
 import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
+import com.silwings.transfiguration.properties.DesensitizationProperties;
 
 /**
  * @ClassName NameDesensitizationStrategy
@@ -10,6 +11,13 @@ import com.silwings.transfiguration.desensitization_strategy.DesensitizationStra
  * @Version V1.0
  **/
 public class NameDesensitizationStrategy implements DesensitizationStrategy<String> {
+
+    private DesensitizationProperties desensitizationProperties;
+
+    public NameDesensitizationStrategy(DesensitizationProperties desensitizationProperties) {
+        this.desensitizationProperties = desensitizationProperties;
+    }
+
     @Override
     public String desensitization(String name) {
         String newName = name;
@@ -19,7 +27,7 @@ public class NameDesensitizationStrategy implements DesensitizationStrategy<Stri
                 StringBuffer stringBuffer = new StringBuffer(length);
                 stringBuffer.append(name.subSequence(0, 1));
                 for (int i = 1; i < length; i++) {
-                    stringBuffer.append('*');
+                    stringBuffer.append(desensitizationProperties.getReplaceSymbol());
                 }
                 newName = stringBuffer.toString();
             }

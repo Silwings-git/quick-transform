@@ -6,6 +6,7 @@ import com.silwings.transfiguration.desensitization_strategy.specific.NameDesens
 import com.silwings.transfiguration.desensitization_strategy.specific.PhoneDesensitizationStrategy;
 import com.silwings.transfiguration.properties.DesensitizationProperties;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -27,14 +28,17 @@ public class StrategyConfig implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
+    @Autowired
+    private DesensitizationProperties desensitizationProperties;
+
     @Bean
     public PhoneDesensitizationStrategy phoneDesensitizationStrategy() {
-        return new PhoneDesensitizationStrategy();
+        return new PhoneDesensitizationStrategy(desensitizationProperties);
     }
 
     @Bean
     public NameDesensitizationStrategy nameDesensitizationStrategy() {
-        return new NameDesensitizationStrategy();
+        return new NameDesensitizationStrategy(desensitizationProperties);
     }
 
     @Bean

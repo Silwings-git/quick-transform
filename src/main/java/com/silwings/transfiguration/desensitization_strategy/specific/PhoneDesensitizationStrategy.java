@@ -1,6 +1,7 @@
 package com.silwings.transfiguration.desensitization_strategy.specific;
 
 import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
+import com.silwings.transfiguration.properties.DesensitizationProperties;
 
 
 /**
@@ -11,6 +12,11 @@ import com.silwings.transfiguration.desensitization_strategy.DesensitizationStra
  * @Version V1.0
  **/
 public class PhoneDesensitizationStrategy implements DesensitizationStrategy<String> {
+    private DesensitizationProperties desensitizationProperties;
+
+    public PhoneDesensitizationStrategy(DesensitizationProperties desensitizationProperties) {
+        this.desensitizationProperties = desensitizationProperties;
+    }
 
     /**
      * description: 对手机号进行脱敏
@@ -32,12 +38,12 @@ public class PhoneDesensitizationStrategy implements DesensitizationStrategy<Str
 //        只对手机号做简单的校验,这里只负责脱敏,不负责手机号的正确性
         if (chars.length == 11) {
             for (int i = 3; i < chars.length - 3; i++) {
-                chars[i] = '*';
+                chars[i] = desensitizationProperties.getReplaceSymbol();
             }
         } else {
 //            如果数据不符合要求全部屏蔽
             for (int i = 0; i < chars.length; i++) {
-                chars[i] = '*';
+                chars[i] = desensitizationProperties.getReplaceSymbol();
             }
         }
         return String.valueOf(chars);
