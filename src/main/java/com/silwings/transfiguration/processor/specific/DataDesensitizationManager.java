@@ -36,6 +36,16 @@ public class DataDesensitizationManager implements DesensitizationManager {
         this.desensitizationHandler = desensitizationHandler;
     }
 
+    /**
+     * description: 该方法为了方便调用而创建,通过判断被处理的数据是不是基本数据类型或者字符串类型来判断调用哪一个方法
+     * version: 1.0
+     * date: 2020/11/7 21:03
+     * author: 崔益翔
+     *
+     * @param body                被处理数据
+     * @param dataDesensitization 标注的注解
+     * @return java.lang.Object
+     */
     @Override
     public Object desensitization(Object body, DataDesensitization dataDesensitization) {
         if (null == body) {
@@ -52,6 +62,17 @@ public class DataDesensitizationManager implements DesensitizationManager {
         return result;
     }
 
+    /**
+     * description: 用来处理被添加了@Transfiguration注解的实体类中属性值的方法.通过遍历
+     * 实体类的所有属性,那到注解信息.再通过注解中声明的策略类去查找相关的策略实例,对数据
+     * 进行脱敏处理.处理完成后将原对象中的值进行替换
+     * version: 1.0
+     * date: 2020/11/7 21:04
+     * author: 崔益翔
+     *
+     * @param body
+     * @return java.lang.Object
+     */
     @Override
     public Object desensitizationOtherType(Object body) {
         Objects.requireNonNull(body, "body must be not null !");
@@ -82,17 +103,39 @@ public class DataDesensitizationManager implements DesensitizationManager {
         return body;
     }
 
+    /**
+     * description: 该方法通过提供的注解实例中的信息,查找相关的策略实例,对待处理数据进行脱敏处理
+     * 并将新值返回
+     * version: 1.0
+     * date: 2020/11/7 21:07
+     * author: 崔益翔
+     *
+     * @param body 待处理数据
+     * @param dataDesensitization 与待处理数据对应的注解实例
+     * @return java.lang.Object
+     */
     @Override
-    public Object desensitizationBasicType(Object body, DataDesensitization methodDesensitization) {
-        Objects.requireNonNull(methodDesensitization, "DataDesensitization不可未空");
-        if (null != body && methodDesensitization.execute()) {
-            DesensitizationStrategy strategy = desensitizationStrategyContainer.getStrategy(methodDesensitization.strategy());
-            Objects.requireNonNull(strategy, methodDesensitization.strategy().getName() + " 实例未找到,请检查是否已添加到Spring容器");
+    public Object desensitizationBasicType(Object body, DataDesensitization dataDesensitization) {
+        Objects.requireNonNull(dataDesensitization, "DataDesensitization不可未空");
+        if (null != body && dataDesensitization.execute()) {
+            DesensitizationStrategy strategy = desensitizationStrategyContainer.getStrategy(dataDesensitization.strategy());
+            Objects.requireNonNull(strategy, dataDesensitization.strategy().getName() + " 实例未找到,请检查是否已添加到Spring容器");
             body = desensitizationHandler.execute(body, strategy);
         }
         return body;
     }
 
+    /**
+     * description: 该方法通过提供的注解实例中的信息,查找相关的策略实例,对待处理数据进行脱敏处理
+     * 并将新值返回
+     * version: 1.0
+     * date: 2020/11/7 21:07
+     * author: 崔益翔
+     *
+     * @param body 待处理数据
+     * @param methodDesensitization 与待处理数据对应的注解实例
+     * @return java.lang.Object
+     */
     @Override
     public Object desensitizationBasicType(Object body, MethodDesensitization methodDesensitization) {
         Objects.requireNonNull(methodDesensitization, "MethodDesensitization不可未空");

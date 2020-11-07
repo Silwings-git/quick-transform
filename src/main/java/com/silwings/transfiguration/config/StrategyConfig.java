@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * @ClassName StrategyConfig
- * @Description TODO
+ * @Description 策略配置类
  * @Author 崔益翔
  * @Date 2020/11/7 13:41
  * @Version V1.0

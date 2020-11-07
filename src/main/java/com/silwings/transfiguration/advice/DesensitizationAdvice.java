@@ -11,19 +11,22 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 
 import java.lang.reflect.Method;
 
 /**
  * @ClassName DesensitizationAdvice
- * @Description TODO
+ * @Description 使用AOP对数据进行设定好的脱敏操作
  * @Author 崔益翔
  * @Date 2020/11/7 15:50
  * @Version V1.0
  **/
 @Aspect
 public class DesensitizationAdvice {
+    private static final Logger log = LoggerFactory.getLogger(DesensitizationAdvice.class);
 
     private DesensitizationManager desensitizationManager;
 
@@ -32,8 +35,9 @@ public class DesensitizationAdvice {
     }
 
     @Pointcut("@annotation(com.silwings.transfiguration.annotation.MethodDesensitization)" +
-            "||@annotation(com.silwings.transfiguration.annotation.NameDesensitization)" +
-            "|| @annotation(com.silwings.transfiguration.annotation.PhoneDesensitization)")
+            "|| @annotation(com.silwings.transfiguration.annotation.NameDesensitization)" +
+            "|| @annotation(com.silwings.transfiguration.annotation.PhoneDesensitization)" +
+            "|| @annotation(com.silwings.transfiguration.annotation.DataDesensitization)")
     public void desensitizationPointCut() {
     }
 
@@ -45,7 +49,6 @@ public class DesensitizationAdvice {
             2.拿到方法的返回值直接获取class去判断即可
             3.通过方法名和参数类型获取实际执行的方法,在获取方法上的注解
          */
-        System.out.println("jru");
         // 调用切点方法
         Object result = jp.proceed();
         if (null == result) {
@@ -60,7 +63,7 @@ public class DesensitizationAdvice {
             result = desensitizationManager.desensitizationOtherType(result);
         } else {
             if (!ReflectUtil.isCommonOrWrapOrString(result)) {
-                System.out.println("返回值:" + result.getClass().getName() + "既不是基本数据类型/字符串类型也不是添加了@Transfiguration注解的实体类类型,不支持脱敏");
+                log.error("返回值:" + result.getClass().getName() + "既不是基本数据类型/字符串类型也不是添加了@Transfiguration注解的实体类类型,不支持脱敏");
             } else {
 //                方法层级的
                 Method method = getMethod(jp);
@@ -72,7 +75,7 @@ public class DesensitizationAdvice {
                 } else if (!methodDesensitization.strategy().getName().equals(DesensitizationStrategy.class.getName())) {
                     result = desensitizationManager.desensitizationBasicType(result, methodDesensitization);
                 } else {
-                    System.out.println("未指定脱敏规则，不进行数据处理");
+                    log.error("未指定脱敏规则，不进行数据处理");
                 }
             }
         }

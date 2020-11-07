@@ -9,13 +9,14 @@ import java.lang.annotation.Target;
 
 /**
  * @ClassName DataDesensitization
- * @Description 标记属性或方法返回值需要脱敏
+ * @Description 标记属性或者方法返回值需要脱敏
+ * 被标记的属性值或方法返回值会被指定的strategy进行修改
  * @Author 崔益翔
  * @Date 2020/10/11 11:12
  * @Version V1.0
  **/
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.FIELD, ElementType.ANNOTATION_TYPE})
+@Target(value = {ElementType.FIELD,ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 public @interface DataDesensitization {
     /**
      * 是否执行脱敏,默认是

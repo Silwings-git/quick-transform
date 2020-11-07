@@ -11,13 +11,14 @@ import java.lang.annotation.Target;
 
 /**
  * @ClassName NameDesensitization
- * @Description TODO
+ * @Description 标记按照名称脱敏规则进行脱敏
+ * 默认的名称脱敏规则是仅显示姓名第一个字,后续的字使用"*"替换
  * @Author 崔益翔
  * @Date 2020/11/7 13:55
  * @Version V1.0
  **/
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.FIELD,ElementType.METHOD})
+@Target(value = {ElementType.FIELD, ElementType.METHOD})
 @DataDesensitization(strategy = NameDesensitizationStrategy.class)
 public @interface NameDesensitization {
     /**
