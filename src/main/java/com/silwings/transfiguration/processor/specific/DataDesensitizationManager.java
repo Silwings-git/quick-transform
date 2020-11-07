@@ -76,7 +76,6 @@ public class DataDesensitizationManager implements DesensitizationManager {
     @Override
     public Object desensitizationOtherType(Object body) {
         Objects.requireNonNull(body, "body must be not null !");
-        System.out.println("body:" + body);
 //        此处拿到对象,应该遍历对象所有变量的注解,并使用注解名称获取desensitizationStrategyMap中对应的脱敏策略进行数据转换
         List<Field> allField = ReflectUtil.getFieldByCurrentAndSuper(body.getClass());
         if (null != allField && allField.size() > 0) {

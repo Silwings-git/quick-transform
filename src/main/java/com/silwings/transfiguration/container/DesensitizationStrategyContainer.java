@@ -1,6 +1,8 @@
 package com.silwings.transfiguration.container;
 
 import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -16,6 +18,7 @@ import java.util.Objects;
  * @Version V1.0
  **/
 public class DesensitizationStrategyContainer {
+    private static final Logger log = LoggerFactory.getLogger(DesensitizationStrategyContainer.class);
 
     private static DesensitizationStrategyContainer instance = new DesensitizationStrategyContainer();
 
@@ -43,7 +46,7 @@ public class DesensitizationStrategyContainer {
         if (null != container.put(key, strategy)) {
             throw new RuntimeException("脱敏策略:" + key + "重复");
         }
-        System.out.println(key + "添加到容器成功");
+        log.info(key + "添加到策略容器成功");
         return this;
     }
 

@@ -43,7 +43,6 @@ public class TransfigurationResponseBodyAdvice implements ResponseBodyAdvice {
      */
     @Override
     public boolean supports(MethodParameter returnType, Class converterType) {
-        System.out.println("TransfigurationResponseBodyAdvice");
         return null != returnType.getParameterType().getAnnotation(Transfiguration.class);
     }
 
@@ -63,7 +62,6 @@ public class TransfigurationResponseBodyAdvice implements ResponseBodyAdvice {
      */
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        System.out.println("body = " + body);
         Annotation[] annotations = returnType.getExecutable().getDeclaredAnnotations();
         Annotation desensitizationClass = null;
         for (int i = 0; i < annotations.length; i++) {

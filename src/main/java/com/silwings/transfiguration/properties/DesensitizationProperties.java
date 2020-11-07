@@ -44,4 +44,5 @@ public class DesensitizationProperties {
     public void setOpenResponseBodyTransition(boolean openResponseBodyTransition) {
         this.openResponseBodyTransition = openResponseBodyTransition;
     }
+
 }
