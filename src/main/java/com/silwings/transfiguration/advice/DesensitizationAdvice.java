@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 
 import java.lang.reflect.Method;
-
 /**
  * @ClassName DesensitizationAdvice
  * @Description 使用AOP对数据进行设定好的脱敏操作
@@ -50,38 +49,41 @@ public class DesensitizationAdvice {
     public Object handleExceptionLog(ProceedingJoinPoint jp) throws Throwable {
 //        如果要对返回单数据做处理需要如下判断
         /*
-            1.需要使用就近原则,也就是如果类上有注解就使用类上的策略,如果类上没有注解,再考虑当前被切的方法上的注解
-            2.拿到方法的返回值直接获取class去判断即可
-            3.通过方法名和参数类型获取实际执行的方法,在获取方法上的注解
+            优先级定义:
+            1.如果在方法上添加了@MethodDesensitization却没有指定策略类时,将判断返回值是否包含@Transfiguration注解
+                1.1 包含:按照属性字段上的注解进行数据处理
+                1.2 不包含:不进行任何操作
+            2.如果在方法上添加了@MethodDesensitization并且指定策略类,或者添加了其他@DataDesensitization的语义化注解
+                2.1 无论返回值上有无添加 @Transfiguration注解,将按照方法上的注解进行数据处理
+                2.2 如果遇到类型转换异常,将交由开发者手动处理
          */
         // 调用切点方法
         Object result = jp.proceed();
         if (null == result) {
             return result;
         }
-        Class<?> resultClass = result.getClass();
-        Transfiguration mergedAnnotation = AnnotatedElementUtils.findMergedAnnotation(resultClass, Transfiguration.class);
-        if (null != mergedAnnotation) {
-//              如果不存在Transfiguration注解说明
-//              1.该对象未标记为需要脱敏
-//              2.该返回值不是用户自定义类型
-            result = desensitizationManager.desensitizationOtherType(result);
+//      获取方法对象
+        Method method = getMethod(jp);
+        if (null == method) {
+            log.error("获取方法信息失败,跳过数据处理");
+            return result;
+        }
+        MethodDesensitization methodDesensitization = AnnotatedElementUtils.findMergedAnnotation(method, MethodDesensitization.class);
+        if (null == methodDesensitization) {
+//            没有添加@MethodDesensitization注解时,说明一定是指明使用策略的注解,使用用户定义的具体策略进行数据处理
+            DataDesensitization dataDesensitization = AnnotatedElementUtils.findMergedAnnotation(method, DataDesensitization.class);
+            result = desensitizationManager.desensitizationBasicType(result, dataDesensitization);
+        } else if (!methodDesensitization.strategy().getName().equals(DesensitizationStrategy.class.getName())) {
+//            如果添加的是@MethodDesensitization注解,分两种情况,1是指定了具体策略,2是没有指定.如果没有指定使用返回值类中相关的注解策略
+//            指定了策略
+            result = desensitizationManager.desensitizationBasicType(result, methodDesensitization);
         } else {
-            if (!ReflectUtil.isCommonOrWrapOrString(result)) {
-                log.error("返回值:" + result.getClass().getName() + "既不是基本数据类型/字符串类型也不是添加了@Transfiguration注解的实体类类型,不支持脱敏");
+//            未指定策略
+            Transfiguration mergedAnnotation = AnnotatedElementUtils.findMergedAnnotation(result.getClass(), Transfiguration.class);
+            if (null != mergedAnnotation) {
+                result = desensitizationManager.desensitizationOtherType(result);
             } else {
-//                方法层级的
-                Method method = getMethod(jp);
-//              方法上存在注解,需要判断结果是什么类型,如果是基本数据类型,就需要调用,不是就不进行任何处理
-                MethodDesensitization methodDesensitization = AnnotatedElementUtils.findMergedAnnotation(method, MethodDesensitization.class);
-                if (null == methodDesensitization) {
-                    DataDesensitization dataDesensitization = AnnotatedElementUtils.findMergedAnnotation(method, DataDesensitization.class);
-                    result = desensitizationManager.desensitizationBasicType(result, dataDesensitization);
-                } else if (!methodDesensitization.strategy().getName().equals(DesensitizationStrategy.class.getName())) {
-                    result = desensitizationManager.desensitizationBasicType(result, methodDesensitization);
-                } else {
-                    log.error("未指定脱敏规则，不进行数据处理");
-                }
+                log.error("方法 " + method.getName() + " 上虽声明了需要数据处理但并未指定处理策略");
             }
         }
         return result;
