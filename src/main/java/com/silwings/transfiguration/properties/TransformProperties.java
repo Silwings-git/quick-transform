@@ -3,14 +3,14 @@ package com.silwings.transfiguration.properties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @ClassName DesensitizationProperties
+ * @ClassName TransformProperties
  * @Description 自定义配置类
  * @Author 崔益翔
  * @Date 2020/11/7 13:36
  * @Version V1.0
  **/
-@ConfigurationProperties(prefix = "desensitization")
-public class DesensitizationProperties {
+@ConfigurationProperties(prefix = "transform")
+public class TransformProperties {
 
     /**
      * 设置用来替换原值的字符

@@ -1,6 +1,6 @@
 package com.silwings.transfiguration.annotation;
 
-import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
+import com.silwings.transfiguration.transform_strategy.TransformStrategy;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @ClassName DataDesensitization
+ * @ClassName DataTransform
  * @Description 标记属性或者方法返回值需要脱敏
  * 被标记的属性值或方法返回值会被指定的strategy进行修改
  * @Author 崔益翔
@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
  **/
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.FIELD,ElementType.METHOD, ElementType.ANNOTATION_TYPE})
-public @interface DataDesensitization {
+public @interface DataTransform {
     /**
      * 是否执行脱敏,默认是
      */
@@ -26,5 +26,5 @@ public @interface DataDesensitization {
     /**
      * 策略类class
      */
-    Class<? extends DesensitizationStrategy> strategy();
+    Class<? extends TransformStrategy> strategy();
 }

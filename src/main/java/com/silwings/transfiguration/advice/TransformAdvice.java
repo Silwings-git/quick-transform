@@ -1,10 +1,10 @@
 package com.silwings.transfiguration.advice;
 
-import com.silwings.transfiguration.annotation.DataDesensitization;
-import com.silwings.transfiguration.annotation.MethodDesensitization;
-import com.silwings.transfiguration.annotation.Transfiguration;
-import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
-import com.silwings.transfiguration.processor.DesensitizationManager;
+import com.silwings.transfiguration.annotation.DataTransform;
+import com.silwings.transfiguration.annotation.MethodTransform;
+import com.silwings.transfiguration.annotation.Transform;
+import com.silwings.transfiguration.transform_strategy.TransformStrategy;
+import com.silwings.transfiguration.processor.TransformManager;
 import com.silwings.transfiguration.utils.ReflectUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -17,44 +17,44 @@ import org.springframework.core.annotation.AnnotatedElementUtils;
 
 import java.lang.reflect.Method;
 /**
- * @ClassName DesensitizationAdvice
+ * @ClassName TransformAdvice
  * @Description 使用AOP对数据进行设定好的脱敏操作
  * @Author 崔益翔
  * @Date 2020/11/7 15:50
  * @Version V1.0
  **/
 @Aspect
-public class DesensitizationAdvice {
-    private static final Logger log = LoggerFactory.getLogger(DesensitizationAdvice.class);
+public class TransformAdvice {
+    private static final Logger log = LoggerFactory.getLogger(TransformAdvice.class);
 
-    private DesensitizationManager desensitizationManager;
+    private TransformManager transformManager;
 
-    public DesensitizationAdvice(DesensitizationManager desensitizationManager) {
-        this.desensitizationManager = desensitizationManager;
+    public TransformAdvice(TransformManager transformManager) {
+        this.transformManager = transformManager;
     }
 
-    @Pointcut("@annotation(com.silwings.transfiguration.annotation.MethodDesensitization)" +
-            "|| @annotation(com.silwings.transfiguration.annotation.NameDesensitization)" +
-            "|| @annotation(com.silwings.transfiguration.annotation.PhoneDesensitization)" +
-            "|| @annotation(com.silwings.transfiguration.annotation.PasswordDesensitization)" +
-            "|| @annotation(com.silwings.transfiguration.annotation.IdCardDesensitization)" +
-            "|| @annotation(com.silwings.transfiguration.annotation.BankCardDesensitization)" +
-            "|| @annotation(com.silwings.transfiguration.annotation.FixedPhoneDesensitization)" +
-            "|| @annotation(com.silwings.transfiguration.annotation.EmailDesensitization)" +
-            "|| @annotation(com.silwings.transfiguration.annotation.DataDesensitization)")
-    public void desensitizationPointCut() {
+    @Pointcut("@annotation(com.silwings.transfiguration.annotation.MethodTransform)" +
+            "|| @annotation(com.silwings.transfiguration.annotation.NameTransform)" +
+            "|| @annotation(com.silwings.transfiguration.annotation.PhoneTransform)" +
+            "|| @annotation(com.silwings.transfiguration.annotation.PasswordTransform)" +
+            "|| @annotation(com.silwings.transfiguration.annotation.IdCardTransform)" +
+            "|| @annotation(com.silwings.transfiguration.annotation.BankCardTransform)" +
+            "|| @annotation(com.silwings.transfiguration.annotation.FixedPhoneTransform)" +
+            "|| @annotation(com.silwings.transfiguration.annotation.EmailTransform)" +
+            "|| @annotation(com.silwings.transfiguration.annotation.DataTransform)")
+    public void transformPointCut() {
     }
 
-    @Around("desensitizationPointCut()")
+    @Around("transformPointCut()")
     public Object handleExceptionLog(ProceedingJoinPoint jp) throws Throwable {
 //        如果要对返回单数据做处理需要如下判断
         /*
             优先级定义:
-            1.如果在方法上添加了@MethodDesensitization却没有指定策略类时,将判断返回值是否包含@Transfiguration注解
+            1.如果在方法上添加了@MethodTransform却没有指定策略类时,将判断返回值是否包含@Transform注解
                 1.1 包含:按照属性字段上的注解进行数据处理
                 1.2 不包含:不进行任何操作
-            2.如果在方法上添加了@MethodDesensitization并且指定策略类,或者添加了其他@DataDesensitization的语义化注解
-                2.1 无论返回值上有无添加 @Transfiguration注解,将按照方法上的注解进行数据处理
+            2.如果在方法上添加了@MethodTransform并且指定策略类,或者添加了其他@DataTransform的语义化注解
+                2.1 无论返回值上有无添加 @Transform注解,将按照方法上的注解进行数据处理
                 2.2 如果遇到类型转换异常,将交由开发者手动处理
          */
         // 调用切点方法
@@ -68,20 +68,20 @@ public class DesensitizationAdvice {
             log.error("获取方法信息失败,跳过数据处理");
             return result;
         }
-        MethodDesensitization methodDesensitization = AnnotatedElementUtils.findMergedAnnotation(method, MethodDesensitization.class);
-        if (null == methodDesensitization) {
-//            没有添加@MethodDesensitization注解时,说明一定是指明使用策略的注解,使用用户定义的具体策略进行数据处理
-            DataDesensitization dataDesensitization = AnnotatedElementUtils.findMergedAnnotation(method, DataDesensitization.class);
-            result = desensitizationManager.desensitizationBasicType(result, dataDesensitization);
-        } else if (!methodDesensitization.strategy().getName().equals(DesensitizationStrategy.class.getName())) {
-//            如果添加的是@MethodDesensitization注解,分两种情况,1是指定了具体策略,2是没有指定.如果没有指定使用返回值类中相关的注解策略
+        MethodTransform methodTransform = AnnotatedElementUtils.findMergedAnnotation(method, MethodTransform.class);
+        if (null == methodTransform) {
+//            没有添加@MethodTransform注解时,说明一定是指明使用策略的注解,使用用户定义的具体策略进行数据处理
+            DataTransform dataTransform = AnnotatedElementUtils.findMergedAnnotation(method, DataTransform.class);
+            result = transformManager.transformBasicType(result, dataTransform);
+        } else if (!methodTransform.strategy().getName().equals(TransformStrategy.class.getName())) {
+//            如果添加的是@MethodTransform注解,分两种情况,1是指定了具体策略,2是没有指定.如果没有指定使用返回值类中相关的注解策略
 //            指定了策略
-            result = desensitizationManager.desensitizationBasicType(result, methodDesensitization);
+            result = transformManager.transformBasicType(result, methodTransform);
         } else {
 //            未指定策略
-            Transfiguration mergedAnnotation = AnnotatedElementUtils.findMergedAnnotation(result.getClass(), Transfiguration.class);
-            if (null != mergedAnnotation) {
-                result = desensitizationManager.desensitizationOtherType(result);
+            Transform transform = AnnotatedElementUtils.findMergedAnnotation(result.getClass(), Transform.class);
+            if (null != transform) {
+                result = transformManager.transformOtherType(result);
             } else {
                 log.error("方法 " + method.getName() + " 上虽声明了需要数据处理但并未指定处理策略");
             }

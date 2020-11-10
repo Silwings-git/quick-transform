@@ -1,7 +1,7 @@
 package com.silwings.transfiguration.annotation;
 
-import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
-import com.silwings.transfiguration.desensitization_strategy.specific.FixedPhoneDesensitizationStrategy;
+import com.silwings.transfiguration.transform_strategy.TransformStrategy;
+import com.silwings.transfiguration.transform_strategy.specific.FixedPhoneTransformStrategy;
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.ElementType;
@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @ClassName FixedPhoneDesensitization
+ * @ClassName FixedPhoneTransform
  * @Description 固定电话
  * @Author 崔益翔
  * @Date 2020/11/7 22:45
@@ -18,17 +18,17 @@ import java.lang.annotation.Target;
  **/
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.FIELD, ElementType.METHOD})
-@DataDesensitization(strategy = FixedPhoneDesensitizationStrategy.class)
-public @interface FixedPhoneDesensitization {
+@DataTransform(strategy = FixedPhoneTransformStrategy.class)
+public @interface FixedPhoneTransform {
     /**
      * 是否执行脱敏,默认是
      */
-    @AliasFor(annotation = DataDesensitization.class)
+    @AliasFor(annotation = DataTransform.class)
     boolean execute() default true;
 
     /**
      * 策略类class
      */
-    @AliasFor(annotation = DataDesensitization.class)
-    Class<? extends DesensitizationStrategy> strategy() default FixedPhoneDesensitizationStrategy.class;
+    @AliasFor(annotation = DataTransform.class)
+    Class<? extends TransformStrategy> strategy() default FixedPhoneTransformStrategy.class;
 }

@@ -1,11 +1,11 @@
 package com.silwings.transfiguration.config;
 
-import com.silwings.transfiguration.advice.DesensitizationAdvice;
-import com.silwings.transfiguration.container.DesensitizationStrategyContainer;
-import com.silwings.transfiguration.handler.DesensitizationHandler;
-import com.silwings.transfiguration.handler.specific.DesensitizationHandlerImpl;
-import com.silwings.transfiguration.processor.DesensitizationManager;
-import com.silwings.transfiguration.processor.specific.DataDesensitizationManager;
+import com.silwings.transfiguration.advice.TransformAdvice;
+import com.silwings.transfiguration.container.TransformStrategyContainer;
+import com.silwings.transfiguration.handler.TransformHandler;
+import com.silwings.transfiguration.handler.specific.TransformHandlerImpl;
+import com.silwings.transfiguration.processor.TransformManager;
+import com.silwings.transfiguration.processor.specific.DataTransformManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,10 +19,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class TransfigurationConfig {
 
-    private DesensitizationStrategyContainer desensitizationStrategyContainer;
+    private TransformStrategyContainer transformStrategyContainer;
 
-    public TransfigurationConfig(DesensitizationStrategyContainer desensitizationStrategyContainer) {
-        this.desensitizationStrategyContainer = desensitizationStrategyContainer;
+    public TransfigurationConfig(TransformStrategyContainer transformStrategyContainer) {
+        this.transformStrategyContainer = transformStrategyContainer;
     }
 
     /**
@@ -32,11 +32,11 @@ public class TransfigurationConfig {
      * author: 崔益翔
      *
      * @param
-     * @return com.silwings.transfiguration.processor.DesensitizationManager
+     * @return com.silwings.transfiguration.processor.TransformManager
      */
     @Bean
-    public DesensitizationManager desensitizationManager() {
-        return new DataDesensitizationManager(desensitizationStrategyContainer, desensitizationHandler());
+    public TransformManager transformManager() {
+        return new DataTransformManager(transformStrategyContainer, transformHandler());
     }
 
     /**
@@ -46,11 +46,11 @@ public class TransfigurationConfig {
      * author: 崔益翔
      *
      * @param
-     * @return com.silwings.transfiguration.handler.DesensitizationHandler
+     * @return com.silwings.transfiguration.handler.TransformHandler
      */
     @Bean
-    public DesensitizationHandler desensitizationHandler() {
-        return new DesensitizationHandlerImpl();
+    public TransformHandler transformHandler() {
+        return new TransformHandlerImpl();
     }
 
     /**
@@ -60,11 +60,11 @@ public class TransfigurationConfig {
      * author: 崔益翔
      *
      * @param
-     * @return com.silwings.transfiguration.advice.DesensitizationAdvice
+     * @return com.silwings.transfiguration.advice.TransformAdvice
      */
     @Bean
-    public DesensitizationAdvice desensitizationAdvice() {
-        return new DesensitizationAdvice(desensitizationManager());
+    public TransformAdvice transformAdvice() {
+        return new TransformAdvice(transformManager());
     }
 
 

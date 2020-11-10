@@ -1,7 +1,7 @@
 package com.silwings.transfiguration.annotation;
 
-import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
-import com.silwings.transfiguration.desensitization_strategy.specific.IdCardDesensitizationStrategy;
+import com.silwings.transfiguration.transform_strategy.TransformStrategy;
+import com.silwings.transfiguration.transform_strategy.specific.IdCardTransformStrategy;
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.ElementType;
@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @ClassName IdCardDesensitization
+ * @ClassName IdCardTransform
  * @Description 身份证
  * @Author 崔益翔
  * @Date 2020/11/7 21:40
@@ -18,17 +18,17 @@ import java.lang.annotation.Target;
  **/
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.FIELD, ElementType.METHOD})
-@DataDesensitization(strategy = IdCardDesensitizationStrategy.class)
-public @interface IdCardDesensitization {
+@DataTransform(strategy = IdCardTransformStrategy.class)
+public @interface IdCardTransform {
     /**
      * 是否执行脱敏,默认是
      */
-    @AliasFor(annotation = DataDesensitization.class)
+    @AliasFor(annotation = DataTransform.class)
     boolean execute() default true;
 
     /**
      * 策略类class
      */
-    @AliasFor(annotation = DataDesensitization.class)
-    Class<? extends DesensitizationStrategy> strategy() default IdCardDesensitizationStrategy.class;
+    @AliasFor(annotation = DataTransform.class)
+    Class<? extends TransformStrategy> strategy() default IdCardTransformStrategy.class;
 }

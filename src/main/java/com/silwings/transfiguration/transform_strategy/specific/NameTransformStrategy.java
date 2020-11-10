@@ -1,22 +1,22 @@
-package com.silwings.transfiguration.desensitization_strategy.specific;
+package com.silwings.transfiguration.transform_strategy.specific;
 
-import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
-import com.silwings.transfiguration.properties.DesensitizationProperties;
+import com.silwings.transfiguration.transform_strategy.TransformStrategy;
+import com.silwings.transfiguration.properties.TransformProperties;
 
 /**
- * @ClassName NameDesensitizationStrategy
+ * @ClassName NameTransformStrategy
  * @Description 名称脱敏策略
  * 默认规则为仅显示名称第一个字,剩余使用"*"替换
  * @Author 崔益翔
  * @Date 2020/11/7 13:23
  * @Version V1.0
  **/
-public class NameDesensitizationStrategy implements DesensitizationStrategy<String> {
+public class NameTransformStrategy implements TransformStrategy<String> {
 
-    private DesensitizationProperties desensitizationProperties;
+    private TransformProperties transformProperties;
 
-    public NameDesensitizationStrategy(DesensitizationProperties desensitizationProperties) {
-        this.desensitizationProperties = desensitizationProperties;
+    public NameTransformStrategy(TransformProperties transformProperties) {
+        this.transformProperties = transformProperties;
     }
 
     /**
@@ -28,14 +28,14 @@ public class NameDesensitizationStrategy implements DesensitizationStrategy<Stri
      * @return java.lang.String
      */
     @Override
-    public String desensitization(String name) {
+    public String transform(String name) {
         String newName = name;
         if (null != name) {
             int length = name.length();
             if (length > 0) {
                 StringBuffer stringBuffer = new StringBuffer(length);
                 stringBuffer.append(name.subSequence(0, 1));
-                stringBuffer.append(desensitizationProperties.getReplaceSymbol(length-1));
+                stringBuffer.append(transformProperties.getReplaceSymbol(length-1));
                 newName = stringBuffer.toString();
             }
         }

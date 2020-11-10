@@ -14,5 +14,5 @@ package com.silwings.transfiguration.annotation;
  **/
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.TYPE})
-public @interface Transfiguration {
+public @interface Transform {
 }

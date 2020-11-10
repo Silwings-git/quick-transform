@@ -1,17 +1,17 @@
 package com.silwings.transfiguration.handler.specific;
 
-import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
-import com.silwings.transfiguration.handler.DesensitizationHandler;
+import com.silwings.transfiguration.transform_strategy.TransformStrategy;
+import com.silwings.transfiguration.handler.TransformHandler;
 
 
 /**
- * @ClassName DesensitizationHandlerImpl
+ * @ClassName TransformHandlerImpl
  * @Description 该类负责对脱敏策略进行调度
  * @Author 崔益翔
  * @Date 2020/11/7 10:50
  * @Version V1.0
  **/
-public class DesensitizationHandlerImpl implements DesensitizationHandler {
+public class TransformHandlerImpl implements TransformHandler {
     /**
      * description: 使用strategy对数据进行处理
      * version: 1.0
@@ -23,7 +23,7 @@ public class DesensitizationHandlerImpl implements DesensitizationHandler {
      * @return T 处理后的值
      */
     @Override
-    public <T> T execute(T source, DesensitizationStrategy strategy) {
-        return (T) strategy.desensitization(source);
+    public <T> T execute(T source, TransformStrategy strategy) {
+        return (T) strategy.transform(source);
     }
 }

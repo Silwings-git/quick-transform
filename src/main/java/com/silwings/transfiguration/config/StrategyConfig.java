@@ -1,9 +1,9 @@
 package com.silwings.transfiguration.config;
 
-import com.silwings.transfiguration.container.DesensitizationStrategyContainer;
-import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
-import com.silwings.transfiguration.desensitization_strategy.specific.*;
-import com.silwings.transfiguration.properties.DesensitizationProperties;
+import com.silwings.transfiguration.container.TransformStrategyContainer;
+import com.silwings.transfiguration.transform_strategy.TransformStrategy;
+import com.silwings.transfiguration.transform_strategy.specific.*;
+import com.silwings.transfiguration.properties.TransformProperties;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -22,53 +22,53 @@ import java.util.Map;
  * @Version V1.0
  **/
 @Configuration
-@EnableConfigurationProperties({DesensitizationProperties.class})
+@EnableConfigurationProperties({TransformProperties.class})
 public class StrategyConfig implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
     @Autowired
-    private DesensitizationProperties desensitizationProperties;
+    private TransformProperties transformProperties;
 
     @Bean
-    public PhoneDesensitizationStrategy phoneDesensitizationStrategy() {
-        return new PhoneDesensitizationStrategy(desensitizationProperties);
+    public PhoneTransformStrategy phoneTransformStrategy() {
+        return new PhoneTransformStrategy(transformProperties);
     }
 
     @Bean
-    public NameDesensitizationStrategy nameDesensitizationStrategy() {
-        return new NameDesensitizationStrategy(desensitizationProperties);
+    public NameTransformStrategy nameTransformStrategy() {
+        return new NameTransformStrategy(transformProperties);
     }
 
     @Bean
-    public PasswordDesensitizationStrategy passwordDesensitizationStrategy() {
-        return new PasswordDesensitizationStrategy(desensitizationProperties);
+    public PasswordTransformStrategy passwordTransformStrategy() {
+        return new PasswordTransformStrategy(transformProperties);
     }
 
     @Bean
-    public IdCardDesensitizationStrategy idCardDesensitizationStrategy() {
-        return new IdCardDesensitizationStrategy(desensitizationProperties);
+    public IdCardTransformStrategy idCardTransformStrategy() {
+        return new IdCardTransformStrategy(transformProperties);
     }
 
     @Bean
-    public BankCardDesensitizationStrategy bankCardDesensitizationStrategy() {
-        return new BankCardDesensitizationStrategy(desensitizationProperties);
+    public BankCardTransformStrategy bankCardTransformStrategy() {
+        return new BankCardTransformStrategy(transformProperties);
     }
 
     @Bean
-    public FixedPhoneDesensitizationStrategy fixedPhoneDesensitizationStrategy() {
-        return new FixedPhoneDesensitizationStrategy(desensitizationProperties);
+    public FixedPhoneTransformStrategy fixedPhoneTransformStrategy() {
+        return new FixedPhoneTransformStrategy(transformProperties);
     }
 
     @Bean
-    public EmailDesensitizationStrategy emailDesensitizationStrategy() {
-        return new EmailDesensitizationStrategy(desensitizationProperties);
+    public EmailTransformStrategy emailTransformStrategy() {
+        return new EmailTransformStrategy(transformProperties);
     }
 
     @Bean
-    public DesensitizationStrategyContainer desensitizationStrategyContainer() {
-        Map<String, DesensitizationStrategy> beansOfType = applicationContext.getBeansOfType(DesensitizationStrategy.class);
-        DesensitizationStrategyContainer container = DesensitizationStrategyContainer.getInstance();
+    public TransformStrategyContainer transformStrategyContainer() {
+        Map<String, TransformStrategy> beansOfType = applicationContext.getBeansOfType(TransformStrategy.class);
+        TransformStrategyContainer container = TransformStrategyContainer.getInstance();
         if (null != beansOfType && beansOfType.keySet().size() > 0) {
             for (String key : beansOfType.keySet()) {
                 container.addStrategy(beansOfType.get(key));

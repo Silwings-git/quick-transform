@@ -1,7 +1,7 @@
 package com.silwings.transfiguration.annotation;
 
-import com.silwings.transfiguration.desensitization_strategy.DesensitizationStrategy;
-import com.silwings.transfiguration.desensitization_strategy.specific.PhoneDesensitizationStrategy;
+import com.silwings.transfiguration.transform_strategy.TransformStrategy;
+import com.silwings.transfiguration.transform_strategy.specific.PhoneTransformStrategy;
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.ElementType;
@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @ClassName PhoneDesensitization
+ * @ClassName PhoneTransform
  * @Description 标记属性使用手机号脱敏策略进行数据处理
  * 默认的处理规则是将手机号的4-8位使用'*'替换
  * @Author 崔益翔
@@ -19,17 +19,17 @@ import java.lang.annotation.Target;
  **/
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.FIELD, ElementType.METHOD})
-@DataDesensitization(strategy = PhoneDesensitizationStrategy.class)
-public @interface PhoneDesensitization {
+@DataTransform(strategy = PhoneTransformStrategy.class)
+public @interface PhoneTransform {
     /**
      * 是否执行脱敏,默认是
      */
-    @AliasFor(annotation = DataDesensitization.class)
+    @AliasFor(annotation = DataTransform.class)
     boolean execute() default true;
 
     /**
      * 策略类class
      */
-    @AliasFor(annotation = DataDesensitization.class)
-    Class<? extends DesensitizationStrategy> strategy() default PhoneDesensitizationStrategy.class;
+    @AliasFor(annotation = DataTransform.class)
+    Class<? extends TransformStrategy> strategy() default PhoneTransformStrategy.class;
 }
