@@ -5,7 +5,7 @@ import com.silwings.transfiguration.properties.DesensitizationProperties;
 
 /**
  * @ClassName EmailDesensitizationStrategy
- * @Description TODO
+ * @Description 邮箱脱敏策略类
  * @Author 崔益翔
  * @Date 2020/11/7 22:54
  * @Version V1.0

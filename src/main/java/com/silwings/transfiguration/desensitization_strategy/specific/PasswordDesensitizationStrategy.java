@@ -5,7 +5,7 @@ import com.silwings.transfiguration.properties.DesensitizationProperties;
 
 /**
  * @ClassName PasswordDesensitizationStrategy
- * @Description TODO
+ * @Description 密码脱敏策略类
  * @Author 崔益翔
  * @Date 2020/11/7 21:37
  * @Version V1.0

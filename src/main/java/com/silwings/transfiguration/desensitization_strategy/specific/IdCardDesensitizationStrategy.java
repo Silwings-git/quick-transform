@@ -5,7 +5,7 @@ import com.silwings.transfiguration.properties.DesensitizationProperties;
 
 /**
  * @ClassName IdCardDesensitizationStrategy
- * @Description TODO
+ * @Description 身份证脱敏策略类
  * @Author 崔益翔
  * @Date 2020/11/7 21:41
  * @Version V1.0

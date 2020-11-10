@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 
 /**
  * @ClassName EmailDesensitization
- * @Description TODO
+ * @Description 邮箱脱敏语义化注解
  * @Author 崔益翔
  * @Date 2020/11/7 22:53
  * @Version V1.0
