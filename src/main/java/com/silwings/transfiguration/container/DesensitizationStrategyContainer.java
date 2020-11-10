@@ -42,7 +42,8 @@ public class DesensitizationStrategyContainer {
      */
     public DesensitizationStrategyContainer addStrategy(DesensitizationStrategy strategy) {
         Objects.requireNonNull(strategy, "禁止向脱敏策略容器中添加空策略");
-        String key = strategy.getClass().getName();
+//        防止动态代理生成策略,导致获取到的name与原class的name不同
+        String key = strategy.getClass().getName().split("$")[0];
         if (null != container.put(key, strategy)) {
             throw new RuntimeException("脱敏策略:" + key + "重复");
         }
