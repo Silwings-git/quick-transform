@@ -2,12 +2,10 @@ package com.silwings.transfiguration.config;
 
 import com.silwings.transfiguration.advice.DesensitizationAdvice;
 import com.silwings.transfiguration.container.DesensitizationStrategyContainer;
-import com.silwings.transfiguration.controller_advice.TransfigurationResponseBodyAdvice;
 import com.silwings.transfiguration.handler.DesensitizationHandler;
 import com.silwings.transfiguration.handler.specific.DesensitizationHandlerImpl;
 import com.silwings.transfiguration.processor.DesensitizationManager;
 import com.silwings.transfiguration.processor.specific.DataDesensitizationManager;
-import com.silwings.transfiguration.properties.DesensitizationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,27 +19,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class TransfigurationConfig {
 
-    private DesensitizationProperties desensitizationProperties;
-
     private DesensitizationStrategyContainer desensitizationStrategyContainer;
 
-    public TransfigurationConfig(DesensitizationProperties desensitizationProperties, DesensitizationStrategyContainer desensitizationStrategyContainer) {
-        this.desensitizationProperties = desensitizationProperties;
+    public TransfigurationConfig(DesensitizationStrategyContainer desensitizationStrategyContainer) {
         this.desensitizationStrategyContainer = desensitizationStrategyContainer;
-    }
-
-    /**
-     * description: 根据配置决定是否开启响应体增强进行数据脱敏
-     * version: 1.0
-     * date: 2020/11/7 20:58
-     * author: 崔益翔
-     *
-     * @param
-     * @return com.silwings.transfiguration.controller_advice.TransfigurationResponseBodyAdvice
-     */
-    @Bean
-    public TransfigurationResponseBodyAdvice transfigurationResponseBodyAdvice() {
-        return desensitizationProperties.isOpenResponseBodyTransition() ? new TransfigurationResponseBodyAdvice() : null;
     }
 
     /**
