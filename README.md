@@ -2,13 +2,16 @@
 
 #### 介绍
 基于SpringBoot的返回值数据处理组件,主要用于数据脱敏
+1.该组件提供默认的注解和对应的处理策略利用AOP,可以便捷的对一些常见敏感数据进行数据修改操作
+2.允许用户添加自定义的处理策略对方法返回值进行便携加工
 
 
 #### 安装教程
 
 1.  将代码install到本地仓库
 2.  在项目中引入依赖
-    ```<dependency>
+    ```
+        <dependency>
            <groupId>com.silwings</groupId>
            <artifactId>quick-transform</artifactId>
            <version>1.0-SNAPSHOT</version>
@@ -16,7 +19,11 @@
 
 #### 使用说明
 
-1.  xxxx
+h5 1.核心注解说明
+    ```
+        
+
+1.  核心注解
 2.  xxxx
 3.  xxxx
 
