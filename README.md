@@ -17,7 +17,7 @@
 2.  在项目中引入依赖
     ```
     <dependency>
-        <groupId>com.silwings</groupId>
+        <groupId>com.github.Silwings-git</groupId>
         <artifactId>quick-transform-spring-boot-starter</artifactId>
         <version>1.0-SNAPSHOT</version>
     </dependency>
