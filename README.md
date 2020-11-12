@@ -11,16 +11,18 @@
 1.  将代码install到本地仓库
 2.  在项目中引入依赖
     ```
-        <dependency>
-           <groupId>com.silwings</groupId>
-           <artifactId>quick-transform</artifactId>
-           <version>1.0-SNAPSHOT</version>
-        </dependency>
+    <dependency>
+       <groupId>com.silwings</groupId>
+       <artifactId>quick-transform</artifactId>
+       <version>1.0-SNAPSHOT</version>
+    </dependency>
 
 #### 使用说明
 
 ##### 1.核心注解说明
     ```
+    1.@DataTransform:
+        
         
 
 1.  核心注解
