@@ -19,7 +19,7 @@
    <dependency>
         <groupId>com.github.Silwings-git</groupId>
         <artifactId>quick-transform-spring-boot-starter</artifactId>
-        <version>1.0</version>
+        <version>1.0.1</version>
    </dependency>
    ```
 

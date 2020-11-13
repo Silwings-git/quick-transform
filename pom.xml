@@ -13,7 +13,7 @@
 
     <groupId>com.github.Silwings-git</groupId>
     <artifactId>quick-transform-spring-boot-starter</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <properties>
         <java.version>1.8</java.version>
