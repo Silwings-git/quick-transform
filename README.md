@@ -13,15 +13,15 @@
 
 #### 安装教程
 
-1.  将代码install到本地仓库
-2.  在项目中引入依赖
-    ```
-    <dependency>
-        <groupId>com.silwings</groupId>
+1. 该组件以提交到中央仓库,直接引入下面依赖即可
+
+   ```xml
+   <dependency>
+        <groupId>com.github.Silwings-git</groupId>
         <artifactId>quick-transform-spring-boot-starter</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </dependency>
-    ```
+        <version>1.0</version>
+   </dependency>
+   ```
 
 #### 使用说明
 
