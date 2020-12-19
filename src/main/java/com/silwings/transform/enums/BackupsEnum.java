@@ -1,21 +1,21 @@
 package com.silwings.transform.enums;
 
 /**
- * @ClassName Backup
+ * @ClassName BackupsEnum
  * @Description TODO
  * @Author 崔益翔
  * @Date 2020/12/19 17:36
  * @Version V1.0
  **/
-public enum Backup {
-    FOLLOW("跟随全局设置", "FOLLOW"),
-    OPEN("开启数据备份", "OPEN"),
-    CLOSE("关闭数据备份", "CLOSE");
+public enum BackupsEnum {
+    FOLLOW("跟随全局设置", null),
+    OPEN("开启数据备份", true),
+    CLOSE("关闭数据备份", false);
 
     private String name;
-    private String value;
+    private Boolean value;
 
-    Backup(String name, String value) {
+    BackupsEnum(String name, Boolean value) {
         this.name = name;
         this.value = value;
     }
@@ -24,7 +24,7 @@ public enum Backup {
         return name;
     }
 
-    public String getValue() {
+    public Boolean getValue() {
         return value;
     }
 

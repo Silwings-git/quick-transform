@@ -4,10 +4,10 @@ import com.silwings.transform.annotation.DataTransform;
 import com.silwings.transform.annotation.MethodTransform;
 import com.silwings.transform.annotation.backup.Backups;
 import com.silwings.transform.container.TransformStrategyContainer;
+import com.silwings.transform.enums.BackupsEnum;
 import com.silwings.transform.processor.TransformManager;
 import com.silwings.transform.strategy.TransformStrategy;
 import com.silwings.transform.handler.TransformHandler;
-import com.silwings.transform.utils.BeanHelper;
 import com.silwings.transform.utils.ReflectUtil;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 
@@ -46,11 +46,12 @@ public class DataTransformManager implements TransformManager {
      * author: 崔益翔
      *
      * @param body
+     * @param backupsEnum
      * @return java.lang.Object
      */
     @Override
     @Backups
-    public Object transformOtherType(Object body) {
+    public Object transformOtherType(Object body, BackupsEnum backupsEnum) {
         Objects.requireNonNull(body, "body must be not null !");
 //        此处拿到对象,应该遍历对象所有变量的注解,并使用注解名称获取transformStrategyContainer中对应的策略进行数据转换
         List<Field> allField = ReflectUtil.getFieldByCurrentAndSuper(body.getClass());
@@ -91,7 +92,7 @@ public class DataTransformManager implements TransformManager {
      */
     @Override
     @Backups
-    public Object transformBasicType(Object body, DataTransform dataTransform) {
+    public Object transformBasicType(Object body, BackupsEnum backupsEnum, DataTransform dataTransform) {
         Objects.requireNonNull(dataTransform, "DataTransform 不可未空");
         if (null != body && dataTransform.execute()) {
             TransformStrategy strategy = transformStrategyContainer.getStrategy(dataTransform.strategy());
@@ -114,7 +115,7 @@ public class DataTransformManager implements TransformManager {
      */
     @Override
     @Backups
-    public Object transformBasicType(Object body, MethodTransform methodTransform) {
+    public Object transformBasicType(Object body, BackupsEnum backupsEnum, MethodTransform methodTransform) {
         Objects.requireNonNull(methodTransform, "MethodTransform 不可未空");
         if (null != body && methodTransform.execute()) {
             TransformStrategy strategy = transformStrategyContainer.getStrategy(methodTransform.strategy());

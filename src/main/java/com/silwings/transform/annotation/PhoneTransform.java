@@ -1,5 +1,6 @@
 package com.silwings.transform.annotation;
 
+import com.silwings.transform.enums.BackupsEnum;
 import com.silwings.transform.strategy.TransformStrategy;
 import com.silwings.transform.strategy.specific.PhoneTransformStrategy;
 import org.springframework.core.annotation.AliasFor;
@@ -8,6 +9,8 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import static com.silwings.transform.enums.BackupsEnum.FOLLOW;
 
 /**
  * @ClassName PhoneTransform
@@ -26,6 +29,12 @@ public @interface PhoneTransform {
      */
     @AliasFor(annotation = DataTransform.class)
     boolean execute() default true;
+
+    /**
+     * @return 是否开启数据备份
+     */
+    @AliasFor(annotation = DataTransform.class)
+    BackupsEnum backups() default FOLLOW;
 
     /**
      * 策略类class

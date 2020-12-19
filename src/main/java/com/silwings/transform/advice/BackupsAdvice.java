@@ -1,5 +1,6 @@
 package com.silwings.transform.advice;
 
+import com.silwings.transform.enums.BackupsEnum;
 import com.silwings.transform.utils.BeanHelper;
 import com.silwings.transform.utils.ReflectUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -51,26 +52,37 @@ public class BackupsAdvice {
         }
 //        被@Backups注解标记的类的方法的第一个参数为需要被加强的数据
         Object body = args[0];
-        Object backUp = null;
+        Object backupObj = args[1];
+        if (null == backupObj || !(backupObj instanceof BackupsEnum)) {
+//            如果参数2位空或不是BackupsEnum类型,说明存在错误,为了不影响代码正常运行,直接过滤
+            LOG.error("数据转换前数据校验失败,已取消备份");
+            return jp.proceed();
+        }
+//        将注解的初始化标识设置为
+        boolean openBackupsAnno = isOpen;
+        BackupsEnum backupsEnum = (BackupsEnum) backupObj;
+        openBackupsAnno = null == backupsEnum.getValue() ? isOpen : backupsEnum.getValue();
+
+        Object backups = null;
 //            判断body的类型，进行数据拷贝
-        if (isOpen && null != body) {
+        if (openBackupsAnno && null != body) {
 //            判断是否是基本数据类型(含包装类)或String类型
             if (ReflectUtil.isCommonOrWrapOrString(body)) {
 //            基本数据类型或String直接赋值即可
-                backUp = body;
+                backups = body;
             } else if (body instanceof Collections) {
 //            暂时不支持容器类数据，不进行备份
             } else if (body instanceof Map) {
 //            暂时不支持容器类数据，不进行备份
             } else {
 //            目前只支持实体类类型
-                backUp = BeanHelper.copyProperties(body, body.getClass());
+                backups = BeanHelper.copyProperties(body, body.getClass());
             }
         }
         // 调用切点方法
         Object res = jp.proceed();
-        if (null != backUp) {
-            TransformBackups.setBackup(res, backUp);
+        if (null != backups) {
+            TransformBackups.setBackup(res, backups);
         }
         return res;
     }

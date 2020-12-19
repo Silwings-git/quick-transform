@@ -1,8 +1,11 @@
 package com.silwings.transform.annotation;
 
+import com.silwings.transform.enums.BackupsEnum;
 import com.silwings.transform.strategy.TransformStrategy;
 
 import java.lang.annotation.*;
+
+import static com.silwings.transform.enums.BackupsEnum.FOLLOW;
 
 /**
  * @ClassName MethodTransform
@@ -25,6 +28,11 @@ public @interface MethodTransform {
      * 是否执行脱敏,默认是
      */
     boolean execute() default true;
+
+    /**
+     * @return 是否开启数据备份
+     */
+    BackupsEnum backups() default FOLLOW;
 
     /**
      * 策略类class,如果返回值是
