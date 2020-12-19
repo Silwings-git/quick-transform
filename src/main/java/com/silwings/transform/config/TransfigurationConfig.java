@@ -1,5 +1,6 @@
 package com.silwings.transform.config;
 
+import com.silwings.transform.advice.BackupsAdvice;
 import com.silwings.transform.advice.TransformAdvice;
 import com.silwings.transform.container.TransformStrategyContainer;
 import com.silwings.transform.handler.TransformHandler;
@@ -54,7 +55,7 @@ public class TransfigurationConfig {
     }
 
     /**
-     * description: 初始化本组件最核心的AOP操作类
+     * description: 初始化本组件核心的AOP操作类
      * version: 1.0
      * date: 2020/11/7 21:00
      * author: 崔益翔
@@ -65,6 +66,20 @@ public class TransfigurationConfig {
     @Bean
     public TransformAdvice transformAdvice() {
         return new TransformAdvice(transformManager());
+    }
+
+    /**
+     * description: 初始化备份操作类
+     * version: 1.0
+     * date: 2020/12/19 18:03
+     * author: 崔益翔
+     *
+     * @param
+     * @return com.silwings.transform.advice.BackupsAdvice
+     */
+    @Bean
+    public BackupsAdvice backupsAdvice() {
+        return new BackupsAdvice();
     }
 
 

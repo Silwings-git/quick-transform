@@ -25,7 +25,7 @@ import java.lang.reflect.Method;
  **/
 @Aspect
 public class TransformAdvice {
-    private static final Logger log = LoggerFactory.getLogger(TransformAdvice.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TransformAdvice.class);
 
     private TransformManager transformManager;
 
@@ -65,7 +65,7 @@ public class TransformAdvice {
 //      获取方法对象
         Method method = getMethod(jp);
         if (null == method) {
-            log.error("获取方法信息失败,跳过数据处理");
+            LOG.error("获取方法信息失败,跳过数据处理");
             return result;
         }
         MethodTransform methodTransform = AnnotatedElementUtils.findMergedAnnotation(method, MethodTransform.class);
@@ -83,7 +83,7 @@ public class TransformAdvice {
             if (null != transform) {
                 result = transformManager.transformOtherType(result);
             } else {
-                log.error("方法 " + method.getName() + " 上虽声明了需要数据处理但并未指定处理策略");
+                LOG.error("方法 " + method.getName() + " 上虽声明了需要数据处理但并未指定处理策略");
             }
         }
         return result;

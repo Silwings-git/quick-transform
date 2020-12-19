@@ -24,7 +24,7 @@ public class TransformBackups {
      * @param src 旧数据
      * @return void
      */
-    protected static <T> void setBackup(T res, T src) {
+    public static <T> void setBackup(T res, T src) {
         HashMap<Object, Object> transformBackupMap = TB.get();
 //        需要初始化HashMap
         if (null == transformBackupMap) {
