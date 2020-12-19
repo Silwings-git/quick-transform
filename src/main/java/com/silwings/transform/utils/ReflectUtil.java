@@ -401,6 +401,14 @@ public class ReflectUtil {
         return isCommonDataType(clazz) || isWrapClass(clazz);
     }
 
+    /**
+     * description: 判断是否是基本数据类型或String类型
+     * version: 1.0
+     * date: 2020/12/19 16:43
+     * author: 崔益翔
+     * @param obj
+     * @return boolean
+     */
     public static boolean isCommonOrWrapOrString(Object obj) {
         if (obj instanceof String) {
             return true;
