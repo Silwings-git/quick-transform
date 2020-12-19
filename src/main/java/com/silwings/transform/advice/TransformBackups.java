@@ -1,4 +1,4 @@
-package com.silwings.transform.processor.specific;
+package com.silwings.transform.advice;
 
 import java.util.HashMap;
 
@@ -15,7 +15,7 @@ public class TransformBackups {
     /**
      * description: 设置备份数据到ThreadLocal中
      * 如果res为空，src无论是否为空都进行存储，但因为HashMap的特性，value可能会被后来的null key所替换，使用时需要注意
-     * 方法上的泛型无法确保使用该方法时res与src类型一致,所以将该方法设置为protected
+     * 方法上的泛型无法确保使用该方法时res与src类型一致,所以将该方法设置为protected,防止被错误使用
      * version: 1.0
      * date: 2020/12/19 15:19
      * author: 崔益翔
@@ -24,7 +24,7 @@ public class TransformBackups {
      * @param src 旧数据
      * @return void
      */
-    public static <T> void setBackup(T res, T src) {
+    protected static <T> void setBackup(T res, T src) {
         HashMap<Object, Object> transformBackupMap = TB.get();
 //        需要初始化HashMap
         if (null == transformBackupMap) {
