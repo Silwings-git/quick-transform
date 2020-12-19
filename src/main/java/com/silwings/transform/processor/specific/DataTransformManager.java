@@ -69,7 +69,7 @@ public class DataTransformManager implements TransformManager {
                 try {
 //                   设置可访问私有
                     field.setAccessible(true);
-                    Object execute = transformHandler.execute(body, strategy);
+                    Object execute = transformHandler.execute(field.get(body), strategy);
                     field.set(body, execute);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
@@ -96,7 +96,7 @@ public class DataTransformManager implements TransformManager {
         Objects.requireNonNull(dataTransform, "DataTransform 不可未空");
         if (null != body && dataTransform.execute()) {
             TransformStrategy strategy = transformStrategyContainer.getStrategy(dataTransform.strategy());
-            Objects.requireNonNull(strategy, dataTransform.strategy().getName() + " 实例未找到,请检查是否已添加到Spring容器");
+            Objects.requireNonNull(strategy, dataTransform.strategy().getName() + " 实例未找到,请检查是否已注入到Spring容器");
             body = transformHandler.execute(body, strategy);
         }
         return body;
@@ -119,7 +119,7 @@ public class DataTransformManager implements TransformManager {
         Objects.requireNonNull(methodTransform, "MethodTransform 不可未空");
         if (null != body && methodTransform.execute()) {
             TransformStrategy strategy = transformStrategyContainer.getStrategy(methodTransform.strategy());
-            Objects.requireNonNull(strategy, methodTransform.strategy().getName() + " 实例未找到,请检查是否已添加到Spring容器");
+            Objects.requireNonNull(strategy, methodTransform.strategy().getName() + " 实例未找到,请检查是否已注入到Spring容器");
             body = transformHandler.execute(body, strategy);
         }
         return body;
