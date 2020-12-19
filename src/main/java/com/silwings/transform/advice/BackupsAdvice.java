@@ -23,7 +23,11 @@ import java.util.Map;
 @Aspect
 public class BackupsAdvice {
     private static final Logger LOG = LoggerFactory.getLogger(BackupsAdvice.class);
-    private boolean isOpen = true;
+    private boolean isOpen = false;
+
+    public BackupsAdvice(boolean isOpen) {
+        this.isOpen = isOpen;
+    }
 
     @Pointcut("@annotation(com.silwings.transform.annotation.backup.Backups)")
     public void backupsPointCut() {

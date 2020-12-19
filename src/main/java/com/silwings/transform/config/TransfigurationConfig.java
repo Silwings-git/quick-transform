@@ -7,6 +7,7 @@ import com.silwings.transform.handler.TransformHandler;
 import com.silwings.transform.handler.specific.TransformHandlerImpl;
 import com.silwings.transform.processor.TransformManager;
 import com.silwings.transform.processor.specific.DataTransformManager;
+import com.silwings.transform.properties.TransformProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,9 +22,11 @@ import org.springframework.context.annotation.Configuration;
 public class TransfigurationConfig {
 
     private TransformStrategyContainer transformStrategyContainer;
+    private TransformProperties transformProperties;
 
-    public TransfigurationConfig(TransformStrategyContainer transformStrategyContainer) {
+    public TransfigurationConfig(TransformStrategyContainer transformStrategyContainer, TransformProperties transformProperties) {
         this.transformStrategyContainer = transformStrategyContainer;
+        this.transformProperties = transformProperties;
     }
 
     /**
@@ -79,7 +82,7 @@ public class TransfigurationConfig {
      */
     @Bean
     public BackupsAdvice backupsAdvice() {
-        return new BackupsAdvice();
+        return new BackupsAdvice(transformProperties.getOpenBackups());
     }
 
 

@@ -18,6 +18,10 @@ public class TransformProperties {
      * 如设置值为"!@#",实际生效为'!'
      */
     private String replaceSymbol = "*";
+    /**
+     * 设置是否对转换数据的原始数据进行备份,目前仅支持基本数据类型和String以及实体类类型
+     */
+    private Boolean openBackups = false;
 
     public Character getReplaceSymbol() {
         return replaceSymbol.charAt(0);
@@ -36,4 +40,11 @@ public class TransformProperties {
         this.replaceSymbol = replaceSymbol;
     }
 
+    public Boolean getOpenBackups() {
+        return openBackups;
+    }
+
+    public void setOpenBackups(Boolean openBackups) {
+        this.openBackups = openBackups;
+    }
 }
