@@ -17,6 +17,8 @@ import org.springframework.core.annotation.AnnotatedElementUtils;
 
 import java.lang.reflect.Method;
 
+import static com.silwings.transform.enums.BackupsEnum.FOLLOW;
+
 /**
  * @ClassName TransformAdvice
  * @Description 使用AOP对数据进行设定好的脱敏操作
@@ -82,7 +84,8 @@ public class TransformAdvice {
 //            未指定策略
             Transform transform = AnnotatedElementUtils.findMergedAnnotation(result.getClass(), Transform.class);
             if (null != transform) {
-                result = transformManager.transformOtherType(result, transform.backups());
+//                方法上的备份设置优先级高于实体类的
+                result = transformManager.transformOtherType(result, FOLLOW.equals(methodTransform.backups()) ? transform.backups() : methodTransform.backups());
             } else {
                 LOG.error("方法 " + method.getName() + " 上虽声明了需要数据处理但并未指定处理策略");
             }
