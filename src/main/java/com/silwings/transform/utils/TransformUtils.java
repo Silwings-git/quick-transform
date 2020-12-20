@@ -22,4 +22,31 @@ public class TransformUtils {
     public static <T> T getBackup(T res) {
         return TransformBackups.getBackup(res);
     }
+
+    /**
+     * description: 清除全部备份数据
+     * version: 1.0
+     * date: 2020/12/20 12:18
+     * author: 崔益翔
+     *
+     * @param
+     * @return void
+     */
+    public static void removeAllBackup() {
+        TransformBackups.removeAllBackup();
+    }
+
+    /**
+     * description: 清除指定备份数据
+     * version: 1.0
+     * date: 2020/12/20 12:19
+     * author: 崔益翔
+     *
+     * @param res 数据转换后的对象
+     * @return T
+     */
+    public static <T> T removeBackup(T res) {
+        return TransformBackups.removeBackup(res);
+    }
+
 }
