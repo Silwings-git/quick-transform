@@ -2,6 +2,7 @@ package com.silwings.transform.processor;
 
 import com.silwings.transform.annotation.DataTransform;
 import com.silwings.transform.annotation.MethodTransform;
+import com.silwings.transform.enums.BackupsEnum;
 
 /**
  * @ClassName TransformManager
@@ -12,9 +13,9 @@ import com.silwings.transform.annotation.MethodTransform;
  **/
 public interface TransformManager {
 
-    Object transformOtherType(Object body);
+    Object transformOtherType(Object body, BackupsEnum backupsEnum);
 
-    Object transformBasicType(Object body, DataTransform dataTransform);
+    Object transformBasicType(Object body, BackupsEnum backupsEnum, DataTransform dataTransform);
 
-    Object transformBasicType(Object body, MethodTransform methodTransform);
+    Object transformBasicType(Object result, BackupsEnum backupsEnum, MethodTransform methodTransform);
 }

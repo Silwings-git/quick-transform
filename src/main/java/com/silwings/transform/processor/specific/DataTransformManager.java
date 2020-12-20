@@ -2,7 +2,9 @@ package com.silwings.transform.processor.specific;
 
 import com.silwings.transform.annotation.DataTransform;
 import com.silwings.transform.annotation.MethodTransform;
+import com.silwings.transform.annotation.backup.Backups;
 import com.silwings.transform.container.TransformStrategyContainer;
+import com.silwings.transform.enums.BackupsEnum;
 import com.silwings.transform.processor.TransformManager;
 import com.silwings.transform.strategy.TransformStrategy;
 import com.silwings.transform.handler.TransformHandler;
@@ -10,8 +12,7 @@ import com.silwings.transform.utils.ReflectUtil;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 
 import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @ClassName DataTransformManager
@@ -45,10 +46,12 @@ public class DataTransformManager implements TransformManager {
      * author: 崔益翔
      *
      * @param body
+     * @param backupsEnum
      * @return java.lang.Object
      */
     @Override
-    public Object transformOtherType(Object body) {
+    @Backups
+    public Object transformOtherType(Object body, BackupsEnum backupsEnum) {
         Objects.requireNonNull(body, "body must be not null !");
 //        此处拿到对象,应该遍历对象所有变量的注解,并使用注解名称获取transformStrategyContainer中对应的策略进行数据转换
         List<Field> allField = ReflectUtil.getFieldByCurrentAndSuper(body.getClass());
@@ -83,16 +86,17 @@ public class DataTransformManager implements TransformManager {
      * date: 2020/11/7 21:07
      * author: 崔益翔
      *
-     * @param body 待处理数据
+     * @param body          待处理数据
      * @param dataTransform 与待处理数据对应的注解实例
      * @return java.lang.Object
      */
     @Override
-    public Object transformBasicType(Object body, DataTransform dataTransform) {
+    @Backups
+    public Object transformBasicType(Object body, BackupsEnum backupsEnum, DataTransform dataTransform) {
         Objects.requireNonNull(dataTransform, "DataTransform 不可未空");
         if (null != body && dataTransform.execute()) {
             TransformStrategy strategy = transformStrategyContainer.getStrategy(dataTransform.strategy());
-            Objects.requireNonNull(strategy, dataTransform.strategy().getName() + " 实例未找到,请检查是否已添加到Spring容器");
+            Objects.requireNonNull(strategy, dataTransform.strategy().getName() + " 实例未找到,请检查是否已注入到Spring容器");
             body = transformHandler.execute(body, strategy);
         }
         return body;
@@ -105,16 +109,17 @@ public class DataTransformManager implements TransformManager {
      * date: 2020/11/7 21:07
      * author: 崔益翔
      *
-     * @param body 待处理数据
+     * @param body            待处理数据
      * @param methodTransform 与待处理数据对应的注解实例
      * @return java.lang.Object
      */
     @Override
-    public Object transformBasicType(Object body, MethodTransform methodTransform) {
+    @Backups
+    public Object transformBasicType(Object body, BackupsEnum backupsEnum, MethodTransform methodTransform) {
         Objects.requireNonNull(methodTransform, "MethodTransform 不可未空");
         if (null != body && methodTransform.execute()) {
             TransformStrategy strategy = transformStrategyContainer.getStrategy(methodTransform.strategy());
-            Objects.requireNonNull(strategy, methodTransform.strategy().getName() + " 实例未找到,请检查是否已添加到Spring容器");
+            Objects.requireNonNull(strategy, methodTransform.strategy().getName() + " 实例未找到,请检查是否已注入到Spring容器");
             body = transformHandler.execute(body, strategy);
         }
         return body;

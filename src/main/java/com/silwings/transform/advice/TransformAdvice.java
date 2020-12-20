@@ -16,6 +16,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 
 import java.lang.reflect.Method;
+
+import static com.silwings.transform.enums.BackupsEnum.FOLLOW;
+
 /**
  * @ClassName TransformAdvice
  * @Description 使用AOP对数据进行设定好的脱敏操作
@@ -25,7 +28,7 @@ import java.lang.reflect.Method;
  **/
 @Aspect
 public class TransformAdvice {
-    private static final Logger log = LoggerFactory.getLogger(TransformAdvice.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TransformAdvice.class);
 
     private TransformManager transformManager;
 
@@ -65,25 +68,26 @@ public class TransformAdvice {
 //      获取方法对象
         Method method = getMethod(jp);
         if (null == method) {
-            log.error("获取方法信息失败,跳过数据处理");
+            LOG.error("获取方法信息失败,跳过数据处理");
             return result;
         }
         MethodTransform methodTransform = AnnotatedElementUtils.findMergedAnnotation(method, MethodTransform.class);
         if (null == methodTransform) {
 //            没有添加@MethodTransform注解时,说明一定是指明使用策略的注解,使用用户定义的具体策略进行数据处理
             DataTransform dataTransform = AnnotatedElementUtils.findMergedAnnotation(method, DataTransform.class);
-            result = transformManager.transformBasicType(result, dataTransform);
+            result = transformManager.transformBasicType(result, dataTransform.backups(), dataTransform);
         } else if (!methodTransform.strategy().getName().equals(TransformStrategy.class.getName())) {
 //            如果添加的是@MethodTransform注解,分两种情况,1是指定了具体策略,2是没有指定.如果没有指定使用返回值类中相关的注解策略
 //            指定了策略
-            result = transformManager.transformBasicType(result, methodTransform);
+            result = transformManager.transformBasicType(result, methodTransform.backups(), methodTransform);
         } else {
 //            未指定策略
             Transform transform = AnnotatedElementUtils.findMergedAnnotation(result.getClass(), Transform.class);
             if (null != transform) {
-                result = transformManager.transformOtherType(result);
+//                方法上的备份设置优先级高于实体类的
+                result = transformManager.transformOtherType(result, FOLLOW.equals(methodTransform.backups()) ? transform.backups() : methodTransform.backups());
             } else {
-                log.error("方法 " + method.getName() + " 上虽声明了需要数据处理但并未指定处理策略");
+                LOG.error("方法 " + method.getName() + " 上虽声明了需要数据处理但并未指定处理策略");
             }
         }
         return result;

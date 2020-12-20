@@ -1,11 +1,14 @@
 package com.silwings.transform.annotation;
 
+import com.silwings.transform.enums.BackupsEnum;
 import com.silwings.transform.strategy.TransformStrategy;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import static com.silwings.transform.enums.BackupsEnum.FOLLOW;
 
 /**
  * @ClassName DataTransform
@@ -16,7 +19,7 @@ import java.lang.annotation.Target;
  * @Version V1.0
  **/
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.FIELD,ElementType.METHOD, ElementType.ANNOTATION_TYPE})
+@Target(value = {ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 public @interface DataTransform {
     /**
      * 是否执行脱敏,默认是
@@ -24,7 +27,13 @@ public @interface DataTransform {
     boolean execute() default true;
 
     /**
+     * @return 是否开启数据备份
+     */
+    BackupsEnum backups() default FOLLOW;
+
+    /**
      * 策略类class
      */
     Class<? extends TransformStrategy> strategy();
+
 }

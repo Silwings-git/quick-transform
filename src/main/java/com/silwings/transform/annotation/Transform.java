@@ -1,9 +1,13 @@
 package com.silwings.transform.annotation;
 
-        import java.lang.annotation.ElementType;
-        import java.lang.annotation.Retention;
-        import java.lang.annotation.RetentionPolicy;
-        import java.lang.annotation.Target;
+import com.silwings.transform.enums.BackupsEnum;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+import static com.silwings.transform.enums.BackupsEnum.FOLLOW;
 
 /**
  * @ClassName Transfiguration
@@ -15,4 +19,8 @@ package com.silwings.transform.annotation;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.TYPE})
 public @interface Transform {
+    /**
+     * @return 是否开启数据备份
+     */
+    BackupsEnum backups() default FOLLOW;
 }
