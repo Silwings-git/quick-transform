@@ -76,11 +76,18 @@ public class BackupsAdvice {
                 backups = body;
             } else if (body instanceof Collections) {
 //            暂时不支持容器类数据，不进行备份
+                LOG.error("Collections类型暂不支持备份");
             } else if (body instanceof Map) {
 //            暂时不支持容器类数据，不进行备份
+                LOG.error("Map类型暂不支持备份");
             } else {
 //            目前只支持实体类类型
-                backups = BeanHelper.copyProperties(body, body.getClass());
+                try {
+                    backups = BeanHelper.copyProperties(body, body.getClass());
+                } catch (Exception e) {
+//                    不符合要求的数据转换会失败,虽然不应该影响程序运行,但是需要提示异常错误信息,故只做异常打印
+                    LOG.error("待备份数据类型不被支持");
+                }
             }
         }
         // 调用切点方法
