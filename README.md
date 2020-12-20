@@ -7,8 +7,8 @@
 2.允许用户添加自定义的处理策略对方法返回值进行便携加工
 
 3.项目地址：
-            码云:   https://gitee.com/silwings/quick-transform.git
-            github: https://github.com/Silwings-git/quick-transform.git
+            码云:   [查看gitee仓库](https://gitee.com/silwings/quick-transform.git)
+            github:   [查看github仓库](https://github.com/Silwings-git/quick-transform.git)
 
 
 #### 安装教程
